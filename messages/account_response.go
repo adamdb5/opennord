@@ -25,10 +25,10 @@ func FormatAccountResponse(response *pb.AccountResponse) AccountResponse {
 	}
 
 	return AccountResponse{
-		accountType,
-		response.GetUsername(),
-		response.GetEmail(),
-		response.GetExpiresAt(),
+		type_:     accountType,
+		username:  response.GetUsername(),
+		email:     response.GetEmail(),
+		expiresAt: response.GetExpiresAt(),
 	}
 }
 

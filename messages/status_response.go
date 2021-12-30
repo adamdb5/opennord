@@ -45,16 +45,16 @@ func FormatStatusResponse(response *pb.StatusResponse) StatusResponse {
 	}
 
 	return StatusResponse{
-		response.GetState(),
-		technology,
-		protocol,
-		response.GetIp(),
-		response.GetHostname(),
-		response.GetCountry(),
-		response.GetCity(),
-		response.GetDownload(),
-		response.GetUpload(),
-		response.GetUptime(),
+		state:      response.GetState(),
+		technology: technology,
+		protocol:   protocol,
+		ip:         response.GetIp(),
+		hostname:   response.GetHostname(),
+		country:    response.GetCountry(),
+		city:       response.GetCity(),
+		download:   response.GetDownload(),
+		upload:     response.GetUpload(),
+		uptime:     response.GetUptime(),
 	}
 }
 
