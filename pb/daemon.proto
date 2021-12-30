@@ -9,7 +9,7 @@ package pb;
 
 service Daemon {
   rpc AccountInfo (AccountRequest) returns (AccountResponse) {}
-  rpc Cities (CitiesRequest) returns (Payload) {}
+  rpc Cities (CitiesRequest) returns (CitiesResponse) {}
   rpc Connect (ConnectRequest) returns (Payload) {} // Payload0
   rpc Countries (CountriesRequest) returns (Payload) {}
   rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
@@ -65,6 +65,10 @@ message CitiesRequest {
   string protocol = 1;
   bool obfuscate = 2;
   string country = 3;
+}
+
+message CitiesResponse {
+  repeated string name = 1;
 }
 
 message Bool {

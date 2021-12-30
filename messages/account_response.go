@@ -37,7 +37,7 @@ func (msg AccountResponse) Type() types.AccountType {
 	return msg.type_
 }
 
-// Username returns the account's username.
+// Username returns the account's username (currently unused).
 func (msg AccountResponse) Username() string {
 	return msg.username
 }

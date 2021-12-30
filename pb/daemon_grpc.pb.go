@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DaemonClient interface {
 	AccountInfo(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error)
-	Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*Payload, error)
+	Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*CitiesResponse, error)
 	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*Payload, error)
 	Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*Payload, error)
 	Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -70,8 +70,8 @@ func (c *daemonClient) AccountInfo(ctx context.Context, in *AccountRequest, opts
 	return out, nil
 }
 
-func (c *daemonClient) Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*CitiesResponse, error) {
+	out := new(CitiesResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Cities", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -354,7 +354,7 @@ func (c *daemonClient) SetIpv6(ctx context.Context, in *SetGenericRequest, opts 
 // for forward compatibility
 type DaemonServer interface {
 	AccountInfo(context.Context, *AccountRequest) (*AccountResponse, error)
-	Cities(context.Context, *CitiesRequest) (*Payload, error)
+	Cities(context.Context, *CitiesRequest) (*CitiesResponse, error)
 	Connect(context.Context, *ConnectRequest) (*Payload, error)
 	Countries(context.Context, *CountriesRequest) (*Payload, error)
 	Disconnect(context.Context, *DisconnectRequest) (*Payload, error)
@@ -395,7 +395,7 @@ type UnimplementedDaemonServer struct {
 func (UnimplementedDaemonServer) AccountInfo(context.Context, *AccountRequest) (*AccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccountInfo not implemented")
 }
-func (UnimplementedDaemonServer) Cities(context.Context, *CitiesRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) Cities(context.Context, *CitiesRequest) (*CitiesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Cities not implemented")
 }
 func (UnimplementedDaemonServer) Connect(context.Context, *ConnectRequest) (*Payload, error) {

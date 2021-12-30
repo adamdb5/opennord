@@ -8,9 +8,10 @@ import (
 )
 
 const (
-	address = "unix:///run/nordvpn/nordvpnd.sock"
+	address = "unix:///run/nordvpn/nordvpnd.sock" // Unix domain socket for nordvpnd
 )
 
+// getConnection creates a new gRPC connection.
 func getConnection() *grpc.ClientConn {
 	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
@@ -19,10 +20,12 @@ func getConnection() *grpc.ClientConn {
 	return conn
 }
 
+// getDaemonClient creates a new protobuffer client.
 func getDaemonClient(conn *grpc.ClientConn) pb.DaemonClient {
 	return pb.NewDaemonClient(conn)
 }
 
+// NewOpenNordClient creates a client for interacting with the NordVPN daemon.
 func NewOpenNordClient() Client {
 	conn := getConnection()
 	client := getDaemonClient(conn)

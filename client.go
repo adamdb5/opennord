@@ -35,9 +35,9 @@ func (c Client) AccountInfo() messages.AccountResponse {
 	return messages.FormatAccountResponse(r)
 }
 
-func (c Client) Cities() messages.CitiesResponse {
+func (c Client) Cities(req messages.CitiesRequest) messages.CitiesResponse {
 	ctx := context.Background()
-	r, err := c.daemonClient.Cities(ctx, messages.CitiesRequest{}.ToProtoBuffer())
+	r, err := c.daemonClient.Cities(ctx, req.ToProtoBuffer())
 	if err != nil {
 		log.Fatalf("Error calling RPC Cities: %s", err)
 	}
