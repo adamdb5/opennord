@@ -1,0 +1,262 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/any.proto";
+
+option go_package = "grpc_or_something/pb";
+
+package pb;
+
+service Daemon {
+  rpc AccountInfo (AccountRequest) returns (AccountResponse) {}
+  rpc Cities (CitiesRequest) returns (Payload) {}
+  rpc Connect (ConnectRequest) returns (Payload) {} // Payload0
+  rpc Countries (CountriesRequest) returns (Payload) {}
+  rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
+  rpc FrontendCountries (CountriesRequest) returns (CountriesResponse) {}
+  rpc Groups (GroupsRequest) returns (Payload) {}
+  rpc IsLoggedIn (google.protobuf.Empty) returns (Bool) {}
+  rpc Login (LoginRequest) returns (LoginResponse) {}
+  rpc LoginOAuth2 (google.protobuf.Empty) returns (Payload) {} // Not implemented?
+  rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {} // Not implemented?
+  rpc Logout (LogoutRequest) returns (Payload) {}
+  rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}
+  rpc Ping (PingRequest) returns (PingResponse) {}
+  rpc RateConnection (RateRequest) returns (Payload) {}
+  rpc Register (RegisterRequest) returns (Payload) {}
+  rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}
+  rpc SetCyberSec (SetCyberSecRequest) returns (Payload) {}
+  rpc SetDefaults (google.protobuf.Empty) returns (Payload) {}
+  rpc SetDns (SetDNSRequest) returns (Payload) {}
+  rpc SetFirewall (SetGenericRequest) returns (Payload) {}
+  rpc SetKillSwitch (SetKillSwitchRequest) returns (Payload) {}
+  rpc SetNotify (SetNotifyRequest) returns (Payload) {}
+  rpc SetObfuscate (SetGenericRequest) returns (Payload) {}
+  rpc SetProtocol (SetProtocolRequest) returns (Payload) {}
+  rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}
+  rpc SetWhitelist (SetWhitelistRequest) returns (Payload) {}
+  rpc Settings (SettingsRequest) returns (SettingsResponse) {}
+  rpc SettingsProtocols (SettingsRequest) returns (Payload) {}
+  rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}
+  rpc Status (google.protobuf.Empty) returns (StatusResponse) {}
+  rpc SetIpv6 (SetGenericRequest) returns (Payload) {} // PayloadB
+}
+
+service DaemonConnect {
+  rpc Recv (google.protobuf.Empty) returns ( Payload) {}
+}
+
+service DaemonDisconnect {
+  rpc Recv (google.protobuf.Empty) returns ( Payload) {}
+}
+
+service DaemonOAuth2Callback {
+  rpc Recv (google.protobuf.Empty) returns ( Payload) {}
+}
+
+message AccountResponse {
+  string type = 1;
+  string username = 2;
+  string email = 3;
+  string expiresAt = 4;
+}
+
+message CitiesRequest {
+  string protocol = 1;
+  bool obfuscate = 2;
+  string country = 3;
+}
+
+message Bool {
+  bool value = 1;
+}
+
+message Payload {
+  string type = 1;
+  google.protobuf.Any data = 2;
+}
+
+message Whitelist {
+  repeated int32 ports = 1;
+  repeated int32 subnets = 2;
+}
+
+message Ports {
+  repeated int32 udp = 1;
+  repeated int32 tcp = 2;
+}
+
+message ConnectRequest {
+  string serverTag = 1;
+  string protocol = 2;
+  bool obfuscate = 3;
+  bool cyberSec = 4;
+  bool killSwitch = 5;
+  bool dns = 6;
+  bool whiteList = 7;
+  bool serverGroup = 8;
+  string nordLynxPrivateKey = 9;
+}
+
+message CountriesRequest {
+  string protocol = 1;
+  bool obfuscate = 2;
+}
+
+message CountriesResponse {
+  repeated string countries = 1;
+}
+
+message Country {
+  string name = 1;
+  string code = 2;
+}
+
+message ServersListRequest {
+  string protocol = 1;
+  int32 count = 2;
+  string serverTag = 3;
+}
+
+message DisconnectRequest {
+  int32 id = 2;
+}
+
+message GroupsRequest {
+  string protocol = 1;
+  bool obfuscate = 2;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string type = 1;
+  string url = 2;
+}
+
+message String {
+  google.protobuf.Any data = 1;
+}
+
+message LogoutRequest {
+  int32 id = 2;
+}
+
+// Ping requests and responses have empty bodies
+message PingRequest { }
+message PingResponse { }
+
+message PlansResponse {
+  string type = 1;
+  repeated google.protobuf.Any plans = 2;
+}
+
+message Plan {
+  int32 id = 1;
+  string title = 2;
+  string cost = 3;
+  string currency = 4;
+}
+
+message RateRequest {
+  int32 rating = 1;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message SetAutoconnectRequest {
+  string serverTag = 1;
+  string protocol = 2;
+  bool cyberSec = 3;
+  bool obfuscate = 4;
+  bool autoConnect = 5;
+  bool dns = 6;
+  bool whitelist = 7;
+}
+
+message SetGenericRequest {
+  bool enabled = 1;
+}
+
+message SetCyberSecRequest {
+  bool cyberSec = 1;
+  bool dns = 2;
+}
+
+message SetDNSRequest {
+  bool dns = 1;
+  bool cyberSec = 2;
+}
+
+message SetKillSwitchRequest {
+  bool killSwitch = 1;
+  bool whiteList = 2;
+}
+
+message SetNotifyRequest {
+  bool uid = 1;
+  bool notify = 2;
+}
+
+message SetProtocolRequest {
+  string protocol = 1;
+}
+
+message SetTechnologyRequest {
+  string technology = 1;
+}
+
+message SetWhitelistRequest {
+  repeated string whitelist = 1;
+}
+
+message SettingsResponse {
+  string type = 1;
+  google.protobuf.Any data = 2;
+}
+
+message Settings {
+  string technology = 1;
+  bool firewall = 2;
+  bool killSwitch = 3;
+  bool autoConnect = 4;
+  bool notify = 5;
+  bool ipv6 = 6;
+}
+
+message StatusResponse {
+  string state = 1;
+  TechnologyEnum technology = 2;
+  ProtocolEnum protocol = 3;
+  string ip = 4;
+  string hostname = 5;
+  string country = 6;
+  string city = 7;
+  int64 download = 8;
+  int64 upload = 9;
+  int64 uptime = 10; // nanoseconds
+}
+
+enum TechnologyEnum {
+  UNKNOWN_TECHNOLOGY = 0;
+  OPENVPN = 1;
+  NORDLYNX = 2;
+  SKYLARK = 3;
+}
+
+enum ProtocolEnum {
+  UNKNOWN_PROTOCOL = 0;
+  UDP = 1;
+  TCP = 2;
+}
+
+// Undefined
+message SettingsRequest { }
+message AccountRequest { }
+message SetAutoConnectRequest { }
