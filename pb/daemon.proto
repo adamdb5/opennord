@@ -55,8 +55,8 @@ service DaemonOAuth2Callback {
 }
 
 message AccountResponse {
-  string type = 1;
-  string username = 2;
+  AccountTypeEnum type = 1;
+  string username = 2; // Unused
   string email = 3;
   string expiresAt = 4;
 }
@@ -254,6 +254,11 @@ enum ProtocolEnum {
   UNKNOWN_PROTOCOL = 0;
   UDP = 1;
   TCP = 2;
+}
+
+enum AccountTypeEnum {
+  INACTIVE = 0;
+  ACTIVE = 1;
 }
 
 // Undefined

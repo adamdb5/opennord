@@ -2,20 +2,30 @@ package messages
 
 import (
 	"github.com/adamdb5/opennord/pb"
+	"github.com/adamdb5/opennord/types"
 )
 
 // AccountResponse holds the response from an AccountInfo RPC call.
 type AccountResponse struct {
-	type_     string // The account type
-	username  string // The account username
-	email     string // The account email address
-	expiresAt string // The account expiry time
+	type_     types.AccountType // The account type
+	username  string            // The account username
+	email     string            // The account email address
+	expiresAt string            // The account expiry time
 }
 
 // FormatAccountResponse converts the protobuffer struct to an AccountResponse.
 func FormatAccountResponse(response *pb.AccountResponse) AccountResponse {
+	var accountType types.AccountType
+
+	switch response.GetType() {
+	case pb.AccountTypeEnum_INACTIVE:
+		accountType = types.Inactive
+	case pb.AccountTypeEnum_ACTIVE:
+		accountType = types.Active
+	}
+
 	return AccountResponse{
-		response.GetType(),
+		accountType,
 		response.GetUsername(),
 		response.GetEmail(),
 		response.GetExpiresAt(),
@@ -23,7 +33,7 @@ func FormatAccountResponse(response *pb.AccountResponse) AccountResponse {
 }
 
 // Type returns the account's type.
-func (msg AccountResponse) Type() string {
+func (msg AccountResponse) Type() types.AccountType {
 	return msg.type_
 }
 
