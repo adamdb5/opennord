@@ -1,9 +1,11 @@
 package types
 
+import "github.com/adamdb5/opennord/pb"
+
 type Technology int32
 
 const (
-	OpenVPN  Technology = 1
-	NordLynx            = 2
-	Skylark             = 3
+	OpenVPN  = Technology(pb.TechnologyEnum_OPENVPN)
+	NordLynx = Technology(pb.TechnologyEnum_NORDLYNX)
+	Skylark  = Technology(pb.TechnologyEnum_SKYLARK)
 )
