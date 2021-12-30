@@ -43,15 +43,15 @@ service Daemon {
 }
 
 service DaemonConnect {
-  rpc Recv (google.protobuf.Empty) returns ( Payload) {}
+  rpc Recv (google.protobuf.Empty) returns (Payload) {}
 }
 
 service DaemonDisconnect {
-  rpc Recv (google.protobuf.Empty) returns ( Payload) {}
+  rpc Recv (google.protobuf.Empty) returns (Payload) {}
 }
 
 service DaemonOAuth2Callback {
-  rpc Recv (google.protobuf.Empty) returns ( Payload) {}
+  rpc Recv (google.protobuf.Empty) returns (Payload) {}
 }
 
 message AccountResponse {
@@ -267,8 +267,8 @@ enum AccountTypeEnum {
 }
 
 enum BooleanEnum {
-  TRUE = 0;
-  FALSE = 1;
+  FALSE = 0;
+  TRUE = 1;
 }
 
 // Undefined
