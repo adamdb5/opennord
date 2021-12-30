@@ -62,13 +62,14 @@ message AccountResponse {
 }
 
 message CitiesRequest {
-  string protocol = 1;
-  bool obfuscate = 2;
+  ProtocolEnum protocol = 1;
+  BooleanEnum obfuscate = 2;
   string country = 3;
 }
 
 message CitiesResponse {
-  repeated string name = 1;
+  int32 type = 1;
+  repeated string names = 2;
 }
 
 message Bool {
@@ -263,6 +264,11 @@ enum ProtocolEnum {
 enum AccountTypeEnum {
   ACTIVE = 0;
   INACTIVE = 1;
+}
+
+enum BooleanEnum {
+  TRUE = 0;
+  FALSE = 1;
 }
 
 // Undefined
