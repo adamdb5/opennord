@@ -151,3 +151,11 @@ func (c Client) SetWhitelist(req messages.SetWhitelistRequest) error {
 	_, err := c.daemonClient.SetWhitelist(getContext(), req.ToProtoBuffer())
 	return err
 }
+
+// SetCyberSec calls the SetCyberSec RPC.
+func (c Client) SetCyberSec(enabled bool) error {
+	_, err := c.daemonClient.SetCyberSec(getContext(), &pb.SetCyberSecRequest{
+		CyberSec: enabled},
+	)
+	return err
+}

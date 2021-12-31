@@ -36,7 +36,7 @@ type DaemonClient interface {
 	RateConnection(ctx context.Context, in *RateConnectionRequest, opts ...grpc.CallOption) (*Payload, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetAutoConnect(ctx context.Context, in *SetAutoConnectRequest, opts ...grpc.CallOption) (*Payload, error)
-	SetCyberSec(ctx context.Context, in *SetCyberSecRequest, opts ...grpc.CallOption) (*Payload, error)
+	SetCyberSec(ctx context.Context, in *SetCyberSecRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SetDefaults(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	SetDns(ctx context.Context, in *SetDNSRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -214,8 +214,8 @@ func (c *daemonClient) SetAutoConnect(ctx context.Context, in *SetAutoConnectReq
 	return out, nil
 }
 
-func (c *daemonClient) SetCyberSec(ctx context.Context, in *SetCyberSecRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) SetCyberSec(ctx context.Context, in *SetCyberSecRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SetCyberSec", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -370,7 +370,7 @@ type DaemonServer interface {
 	RateConnection(context.Context, *RateConnectionRequest) (*Payload, error)
 	Register(context.Context, *RegisterRequest) (*Payload, error)
 	SetAutoConnect(context.Context, *SetAutoConnectRequest) (*Payload, error)
-	SetCyberSec(context.Context, *SetCyberSecRequest) (*Payload, error)
+	SetCyberSec(context.Context, *SetCyberSecRequest) (*emptypb.Empty, error)
 	SetDefaults(context.Context, *emptypb.Empty) (*Payload, error)
 	SetDns(context.Context, *SetDNSRequest) (*Payload, error)
 	SetFirewall(context.Context, *SetGenericRequest) (*Payload, error)
@@ -443,7 +443,7 @@ func (UnimplementedDaemonServer) Register(context.Context, *RegisterRequest) (*P
 func (UnimplementedDaemonServer) SetAutoConnect(context.Context, *SetAutoConnectRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetAutoConnect not implemented")
 }
-func (UnimplementedDaemonServer) SetCyberSec(context.Context, *SetCyberSecRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) SetCyberSec(context.Context, *SetCyberSecRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCyberSec not implemented")
 }
 func (UnimplementedDaemonServer) SetDefaults(context.Context, *emptypb.Empty) (*Payload, error) {
