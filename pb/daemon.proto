@@ -20,8 +20,8 @@ service Daemon {
   rpc LoginOAuth2 (google.protobuf.Empty) returns (LoginOAuth2Response) {}         // Implemented
   rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {}             // Not Implemented
   rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}            // Implemented
-  rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Not Implemented
-  rpc Ping (PingRequest) returns (PingResponse) {}                                 // Not Implemented
+  rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Implemented
+  rpc Ping (google.protobuf.Empty) returns (google.protobuf.Empty) {}              // Implemented
   rpc RateConnection (RateRequest) returns (Payload) {}                            // Not Implemented
   rpc Register (RegisterRequest) returns (Payload) {}                              // Not Implemented
   rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Not Implemented
@@ -155,10 +155,6 @@ message String {
 message LogoutRequest {
   int32 id = 2;
 }
-
-// Ping requests and responses have empty bodies
-message PingRequest { }
-message PingResponse { }
 
 message Plan {
   string name = 1;

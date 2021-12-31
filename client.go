@@ -122,3 +122,10 @@ func (c Client) Plans() (messages.PlansResponse, error) {
 	}
 	return messages.FormatPlansResponse(r), err
 }
+
+// Ping checks that the daemon is alive via the Ping RPC.
+// If the value returned is nil, the ping succeeded.
+func (c Client) Ping() error {
+	_, err := c.daemonClient.Ping(getContext(), &emptypb.Empty{})
+	return err
+}

@@ -32,7 +32,7 @@ type DaemonClient interface {
 	LoginOAuth2Callback(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Plans(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PlansResponse, error)
-	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RateConnection(ctx context.Context, in *RateRequest, opts ...grpc.CallOption) (*Payload, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetAutoConnect(ctx context.Context, in *SetAutoConnectRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -178,8 +178,8 @@ func (c *daemonClient) Plans(ctx context.Context, in *emptypb.Empty, opts ...grp
 	return out, nil
 }
 
-func (c *daemonClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
-	out := new(PingResponse)
+func (c *daemonClient) Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Ping", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -366,7 +366,7 @@ type DaemonServer interface {
 	LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error)
 	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	Plans(context.Context, *emptypb.Empty) (*PlansResponse, error)
-	Ping(context.Context, *PingRequest) (*PingResponse, error)
+	Ping(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	RateConnection(context.Context, *RateRequest) (*Payload, error)
 	Register(context.Context, *RegisterRequest) (*Payload, error)
 	SetAutoConnect(context.Context, *SetAutoConnectRequest) (*Payload, error)
@@ -431,7 +431,7 @@ func (UnimplementedDaemonServer) Logout(context.Context, *emptypb.Empty) (*empty
 func (UnimplementedDaemonServer) Plans(context.Context, *emptypb.Empty) (*PlansResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Plans not implemented")
 }
-func (UnimplementedDaemonServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
+func (UnimplementedDaemonServer) Ping(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
 func (UnimplementedDaemonServer) RateConnection(context.Context, *RateRequest) (*Payload, error) {
@@ -736,7 +736,7 @@ func _Daemon_Plans_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Daemon_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PingRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -748,7 +748,7 @@ func _Daemon_Ping_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: "/pb.Daemon/Ping",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).Ping(ctx, req.(*PingRequest))
+		return srv.(DaemonServer).Ping(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
