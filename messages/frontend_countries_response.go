@@ -11,10 +11,12 @@ type FrontendCountriesResponse struct {
 func FormatFrontendCountriesResponse(response *pb.FrontendCountriesResponse) FrontendCountriesResponse {
 	var countries []FrontendCountry
 	for i := 0; i < len(response.GetCountries()); i++ {
-		countries[i] = FrontendCountry{
-			name: response.GetCountries()[i].GetName(),
-			code: response.GetCountries()[i].GetCode(),
-		}
+		countries = append(countries,
+			FrontendCountry{
+				name: response.GetCountries()[i].GetName(),
+				code: response.GetCountries()[i].GetCode(),
+			},
+		)
 	}
 	return FrontendCountriesResponse{
 		countries: countries,
