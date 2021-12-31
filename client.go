@@ -83,3 +83,12 @@ func (c Client) Groups(req messages.GroupsRequest) (messages.GroupsResponse, err
 	}
 	return messages.FormatGroupsResponse(r), nil
 }
+
+// IsLoggedIn calls the IsLoggedIn RPC and returns a IsLoggedInResponse.
+func (c Client) IsLoggedIn() (messages.IsLoggedInResponse, error) {
+	r, err := c.daemonClient.IsLoggedIn(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return messages.IsLoggedInResponse{}, err
+	}
+	return messages.FormatIsLoggedInResponse(r), nil
+}

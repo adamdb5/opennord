@@ -15,7 +15,7 @@ service Daemon {
   rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
   rpc FrontendCountries (CountriesRequest) returns (FrontendCountriesResponse) {}
   rpc Groups (GroupsRequest) returns (GroupsResponse) {}
-  rpc IsLoggedIn (google.protobuf.Empty) returns (Bool) {}
+  rpc IsLoggedIn (google.protobuf.Empty) returns (IsLoggedInResponse) {}
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc LoginOAuth2 (google.protobuf.Empty) returns (Payload) {} // Not implemented?
   rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {} // Not implemented?
@@ -91,8 +91,12 @@ message FrontendCountriesResponse {
   repeated FrontendCountry countries = 1;
 }
 
+message IsLoggedInResponse {
+  BooleanEnum isLoggedIn = 1;
+}
+
 message Bool {
-  bool value = 1;
+  BooleanEnum value = 1;
 }
 
 message Payload {
