@@ -30,7 +30,7 @@ type DaemonClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
-	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*Payload, error)
+	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Plans(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PlansResponse, error)
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 	RateConnection(ctx context.Context, in *RateRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -160,8 +160,8 @@ func (c *daemonClient) LoginOAuth2Callback(ctx context.Context, in *emptypb.Empt
 	return out, nil
 }
 
-func (c *daemonClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -364,7 +364,7 @@ type DaemonServer interface {
 	Login(context.Context, *LoginRequest) (*emptypb.Empty, error)
 	LoginOAuth2(context.Context, *emptypb.Empty) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error)
-	Logout(context.Context, *LogoutRequest) (*Payload, error)
+	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	Plans(context.Context, *emptypb.Empty) (*PlansResponse, error)
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
 	RateConnection(context.Context, *RateRequest) (*Payload, error)
@@ -425,7 +425,7 @@ func (UnimplementedDaemonServer) LoginOAuth2(context.Context, *emptypb.Empty) (*
 func (UnimplementedDaemonServer) LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginOAuth2Callback not implemented")
 }
-func (UnimplementedDaemonServer) Logout(context.Context, *LogoutRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedDaemonServer) Plans(context.Context, *emptypb.Empty) (*PlansResponse, error) {
@@ -700,7 +700,7 @@ func _Daemon_LoginOAuth2Callback_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _Daemon_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LogoutRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -712,7 +712,7 @@ func _Daemon_Logout_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/pb.Daemon/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).Logout(ctx, req.(*LogoutRequest))
+		return srv.(DaemonServer).Logout(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1211,264 +1211,6 @@ var Daemon_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetIpv6",
 			Handler:    _Daemon_SetIpv6_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/daemon.proto",
-}
-
-// DaemonConnectClient is the client API for DaemonConnect service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DaemonConnectClient interface {
-	Recv(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
-}
-
-type daemonConnectClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewDaemonConnectClient(cc grpc.ClientConnInterface) DaemonConnectClient {
-	return &daemonConnectClient{cc}
-}
-
-func (c *daemonConnectClient) Recv(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
-	err := c.cc.Invoke(ctx, "/pb.DaemonConnect/Recv", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// DaemonConnectServer is the server API for DaemonConnect service.
-// All implementations must embed UnimplementedDaemonConnectServer
-// for forward compatibility
-type DaemonConnectServer interface {
-	Recv(context.Context, *emptypb.Empty) (*Payload, error)
-	mustEmbedUnimplementedDaemonConnectServer()
-}
-
-// UnimplementedDaemonConnectServer must be embedded to have forward compatible implementations.
-type UnimplementedDaemonConnectServer struct {
-}
-
-func (UnimplementedDaemonConnectServer) Recv(context.Context, *emptypb.Empty) (*Payload, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Recv not implemented")
-}
-func (UnimplementedDaemonConnectServer) mustEmbedUnimplementedDaemonConnectServer() {}
-
-// UnsafeDaemonConnectServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DaemonConnectServer will
-// result in compilation errors.
-type UnsafeDaemonConnectServer interface {
-	mustEmbedUnimplementedDaemonConnectServer()
-}
-
-func RegisterDaemonConnectServer(s grpc.ServiceRegistrar, srv DaemonConnectServer) {
-	s.RegisterService(&DaemonConnect_ServiceDesc, srv)
-}
-
-func _DaemonConnect_Recv_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DaemonConnectServer).Recv(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.DaemonConnect/Recv",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonConnectServer).Recv(ctx, req.(*emptypb.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// DaemonConnect_ServiceDesc is the grpc.ServiceDesc for DaemonConnect service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var DaemonConnect_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.DaemonConnect",
-	HandlerType: (*DaemonConnectServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Recv",
-			Handler:    _DaemonConnect_Recv_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/daemon.proto",
-}
-
-// DaemonDisconnectClient is the client API for DaemonDisconnect service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DaemonDisconnectClient interface {
-	Recv(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
-}
-
-type daemonDisconnectClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewDaemonDisconnectClient(cc grpc.ClientConnInterface) DaemonDisconnectClient {
-	return &daemonDisconnectClient{cc}
-}
-
-func (c *daemonDisconnectClient) Recv(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
-	err := c.cc.Invoke(ctx, "/pb.DaemonDisconnect/Recv", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// DaemonDisconnectServer is the server API for DaemonDisconnect service.
-// All implementations must embed UnimplementedDaemonDisconnectServer
-// for forward compatibility
-type DaemonDisconnectServer interface {
-	Recv(context.Context, *emptypb.Empty) (*Payload, error)
-	mustEmbedUnimplementedDaemonDisconnectServer()
-}
-
-// UnimplementedDaemonDisconnectServer must be embedded to have forward compatible implementations.
-type UnimplementedDaemonDisconnectServer struct {
-}
-
-func (UnimplementedDaemonDisconnectServer) Recv(context.Context, *emptypb.Empty) (*Payload, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Recv not implemented")
-}
-func (UnimplementedDaemonDisconnectServer) mustEmbedUnimplementedDaemonDisconnectServer() {}
-
-// UnsafeDaemonDisconnectServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DaemonDisconnectServer will
-// result in compilation errors.
-type UnsafeDaemonDisconnectServer interface {
-	mustEmbedUnimplementedDaemonDisconnectServer()
-}
-
-func RegisterDaemonDisconnectServer(s grpc.ServiceRegistrar, srv DaemonDisconnectServer) {
-	s.RegisterService(&DaemonDisconnect_ServiceDesc, srv)
-}
-
-func _DaemonDisconnect_Recv_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DaemonDisconnectServer).Recv(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.DaemonDisconnect/Recv",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonDisconnectServer).Recv(ctx, req.(*emptypb.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// DaemonDisconnect_ServiceDesc is the grpc.ServiceDesc for DaemonDisconnect service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var DaemonDisconnect_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.DaemonDisconnect",
-	HandlerType: (*DaemonDisconnectServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Recv",
-			Handler:    _DaemonDisconnect_Recv_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/daemon.proto",
-}
-
-// DaemonOAuth2CallbackClient is the client API for DaemonOAuth2Callback service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DaemonOAuth2CallbackClient interface {
-	Recv(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
-}
-
-type daemonOAuth2CallbackClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewDaemonOAuth2CallbackClient(cc grpc.ClientConnInterface) DaemonOAuth2CallbackClient {
-	return &daemonOAuth2CallbackClient{cc}
-}
-
-func (c *daemonOAuth2CallbackClient) Recv(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
-	err := c.cc.Invoke(ctx, "/pb.DaemonOAuth2Callback/Recv", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// DaemonOAuth2CallbackServer is the server API for DaemonOAuth2Callback service.
-// All implementations must embed UnimplementedDaemonOAuth2CallbackServer
-// for forward compatibility
-type DaemonOAuth2CallbackServer interface {
-	Recv(context.Context, *emptypb.Empty) (*Payload, error)
-	mustEmbedUnimplementedDaemonOAuth2CallbackServer()
-}
-
-// UnimplementedDaemonOAuth2CallbackServer must be embedded to have forward compatible implementations.
-type UnimplementedDaemonOAuth2CallbackServer struct {
-}
-
-func (UnimplementedDaemonOAuth2CallbackServer) Recv(context.Context, *emptypb.Empty) (*Payload, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Recv not implemented")
-}
-func (UnimplementedDaemonOAuth2CallbackServer) mustEmbedUnimplementedDaemonOAuth2CallbackServer() {}
-
-// UnsafeDaemonOAuth2CallbackServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DaemonOAuth2CallbackServer will
-// result in compilation errors.
-type UnsafeDaemonOAuth2CallbackServer interface {
-	mustEmbedUnimplementedDaemonOAuth2CallbackServer()
-}
-
-func RegisterDaemonOAuth2CallbackServer(s grpc.ServiceRegistrar, srv DaemonOAuth2CallbackServer) {
-	s.RegisterService(&DaemonOAuth2Callback_ServiceDesc, srv)
-}
-
-func _DaemonOAuth2Callback_Recv_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DaemonOAuth2CallbackServer).Recv(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.DaemonOAuth2Callback/Recv",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonOAuth2CallbackServer).Recv(ctx, req.(*emptypb.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// DaemonOAuth2Callback_ServiceDesc is the grpc.ServiceDesc for DaemonOAuth2Callback service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var DaemonOAuth2Callback_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.DaemonOAuth2Callback",
-	HandlerType: (*DaemonOAuth2CallbackServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Recv",
-			Handler:    _DaemonOAuth2Callback_Recv_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

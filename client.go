@@ -107,3 +107,9 @@ func (c Client) LoginOAuth2() (messages.LoginOAuth2Response, error) {
 	}
 	return messages.FormatLoginOAuth2LoginResponse(r), err
 }
+
+// Logout calls the Logout RPC.
+func (c Client) Logout() error {
+	_, err := c.daemonClient.Logout(getContext(), &emptypb.Empty{})
+	return err
+}

@@ -19,7 +19,7 @@ service Daemon {
   rpc Login (LoginRequest) returns (google.protobuf.Empty) {}                      // Implemented
   rpc LoginOAuth2 (google.protobuf.Empty) returns (LoginOAuth2Response) {}         // Implemented
   rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {}             // Not Implemented
-  rpc Logout (LogoutRequest) returns (Payload) {}                                  // Not Implemented
+  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}                    // Implemented
   rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Not Implemented
   rpc Ping (PingRequest) returns (PingResponse) {}                                 // Not Implemented
   rpc RateConnection (RateRequest) returns (Payload) {}                            // Not Implemented
@@ -40,18 +40,6 @@ service Daemon {
   rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}                  // Not Implemented
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
   rpc SetIpv6 (SetGenericRequest) returns (Payload) {}                             // Not Implemented
-}
-
-service DaemonConnect {
-  rpc Recv (google.protobuf.Empty) returns (Payload) {}
-}
-
-service DaemonDisconnect {
-  rpc Recv (google.protobuf.Empty) returns (Payload) {}
-}
-
-service DaemonOAuth2Callback {
-  rpc Recv (google.protobuf.Empty) returns (Payload) {}
 }
 
 message AccountResponse {
