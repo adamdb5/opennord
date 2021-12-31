@@ -19,5 +19,5 @@ func FormatIsLoggedInResponse(response *pb.IsLoggedInResponse) IsLoggedInRespons
 
 // IsLoggedIn returns whether the user is currently logged in.
 func (msg IsLoggedInResponse) IsLoggedIn() constants.Boolean {
-	return msg.IsLoggedIn()
+	return msg.isLoggedIn
 }
