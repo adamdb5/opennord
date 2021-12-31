@@ -19,7 +19,7 @@ service Daemon {
   rpc Login (LoginRequest) returns (google.protobuf.Empty) {}                      // Implemented
   rpc LoginOAuth2 (google.protobuf.Empty) returns (LoginOAuth2Response) {}         // Implemented
   rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {}             // Not Implemented
-  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}                    // Implemented
+  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}            // Implemented
   rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Not Implemented
   rpc Ping (PingRequest) returns (PingResponse) {}                                 // Not Implemented
   rpc RateConnection (RateRequest) returns (Payload) {}                            // Not Implemented
@@ -160,16 +160,15 @@ message LogoutRequest {
 message PingRequest { }
 message PingResponse { }
 
-message PlansResponse {
-  string type = 1;
-  repeated google.protobuf.Any plans = 2;
-}
-
 message Plan {
-  int32 id = 1;
-  string title = 2;
+  string name = 1;
+  string description = 2;
   string cost = 3;
   string currency = 4;
+}
+
+message PlansResponse {
+  repeated Plan plans = 2;
 }
 
 message RateRequest {

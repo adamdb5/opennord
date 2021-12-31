@@ -113,3 +113,12 @@ func (c Client) Logout() error {
 	_, err := c.daemonClient.Logout(getContext(), &emptypb.Empty{})
 	return err
 }
+
+// Plans calls the Plans RPC.
+func (c Client) Plans() (messages.PlansResponse, error) {
+	r, err := c.daemonClient.Plans(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return messages.PlansResponse{}, err
+	}
+	return messages.FormatPlansResponse(r), err
+}

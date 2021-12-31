@@ -1534,76 +1534,21 @@ func (*PingResponse) Descriptor() ([]byte, []int) {
 	return file_pb_daemon_proto_rawDescGZIP(), []int{23}
 }
 
-type PlansResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Type  string       `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	Plans []*anypb.Any `protobuf:"bytes,2,rep,name=plans,proto3" json:"plans,omitempty"`
-}
-
-func (x *PlansResponse) Reset() {
-	*x = PlansResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_daemon_proto_msgTypes[24]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *PlansResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PlansResponse) ProtoMessage() {}
-
-func (x *PlansResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_daemon_proto_msgTypes[24]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PlansResponse.ProtoReflect.Descriptor instead.
-func (*PlansResponse) Descriptor() ([]byte, []int) {
-	return file_pb_daemon_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *PlansResponse) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
-
-func (x *PlansResponse) GetPlans() []*anypb.Any {
-	if x != nil {
-		return x.Plans
-	}
-	return nil
-}
-
 type Plan struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       int32  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title    string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Cost     string `protobuf:"bytes,3,opt,name=cost,proto3" json:"cost,omitempty"`
-	Currency string `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
+	Name        string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Cost        string `protobuf:"bytes,3,opt,name=cost,proto3" json:"cost,omitempty"`
+	Currency    string `protobuf:"bytes,4,opt,name=currency,proto3" json:"currency,omitempty"`
 }
 
 func (x *Plan) Reset() {
 	*x = Plan{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pb_daemon_proto_msgTypes[25]
+		mi := &file_pb_daemon_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1616,7 +1561,7 @@ func (x *Plan) String() string {
 func (*Plan) ProtoMessage() {}
 
 func (x *Plan) ProtoReflect() protoreflect.Message {
-	mi := &file_pb_daemon_proto_msgTypes[25]
+	mi := &file_pb_daemon_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1629,19 +1574,19 @@ func (x *Plan) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Plan.ProtoReflect.Descriptor instead.
 func (*Plan) Descriptor() ([]byte, []int) {
-	return file_pb_daemon_proto_rawDescGZIP(), []int{25}
+	return file_pb_daemon_proto_rawDescGZIP(), []int{24}
 }
 
-func (x *Plan) GetId() int32 {
+func (x *Plan) GetName() string {
 	if x != nil {
-		return x.Id
+		return x.Name
 	}
-	return 0
+	return ""
 }
 
-func (x *Plan) GetTitle() string {
+func (x *Plan) GetDescription() string {
 	if x != nil {
-		return x.Title
+		return x.Description
 	}
 	return ""
 }
@@ -1658,6 +1603,53 @@ func (x *Plan) GetCurrency() string {
 		return x.Currency
 	}
 	return ""
+}
+
+type PlansResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Plans []*Plan `protobuf:"bytes,2,rep,name=plans,proto3" json:"plans,omitempty"`
+}
+
+func (x *PlansResponse) Reset() {
+	*x = PlansResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pb_daemon_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PlansResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlansResponse) ProtoMessage() {}
+
+func (x *PlansResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_daemon_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlansResponse.ProtoReflect.Descriptor instead.
+func (*PlansResponse) Descriptor() ([]byte, []int) {
+	return file_pb_daemon_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *PlansResponse) GetPlans() []*Plan {
+	if x != nil {
+		return x.Plans
+	}
+	return nil
 }
 
 type RateRequest struct {
@@ -2763,18 +2755,17 @@ var file_pb_daemon_proto_rawDesc = []byte{
 	0x6f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x22, 0x0d, 0x0a, 0x0b, 0x50, 0x69,
 	0x6e, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x0e, 0x0a, 0x0c, 0x50, 0x69, 0x6e,
-	0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4f, 0x0a, 0x0d, 0x50, 0x6c, 0x61,
-	0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79,
-	0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x2a,
-	0x0a, 0x05, 0x70, 0x6c, 0x61, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
-	0x41, 0x6e, 0x79, 0x52, 0x05, 0x70, 0x6c, 0x61, 0x6e, 0x73, 0x22, 0x5c, 0x0a, 0x04, 0x50, 0x6c,
-	0x61, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02,
-	0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x73, 0x74,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08,
-	0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
-	0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x22, 0x25, 0x0a, 0x0b, 0x52, 0x61, 0x74, 0x65,
+	0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x6c, 0x0a, 0x04, 0x50, 0x6c, 0x61,
+	0x6e, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63,
+	0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x73, 0x74, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x63,
+	0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63,
+	0x75, 0x72, 0x72, 0x65, 0x6e, 0x63, 0x79, 0x22, 0x2f, 0x0a, 0x0d, 0x50, 0x6c, 0x61, 0x6e, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x05, 0x70, 0x6c, 0x61, 0x6e,
+	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x70, 0x62, 0x2e, 0x50, 0x6c, 0x61,
+	0x6e, 0x52, 0x05, 0x70, 0x6c, 0x61, 0x6e, 0x73, 0x22, 0x25, 0x0a, 0x0b, 0x52, 0x61, 0x74, 0x65,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x61, 0x74, 0x69, 0x6e,
 	0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x72, 0x61, 0x74, 0x69, 0x6e, 0x67, 0x22,
 	0x43, 0x0a, 0x0f, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65,
@@ -3038,8 +3029,8 @@ var file_pb_daemon_proto_goTypes = []interface{}{
 	(*LogoutRequest)(nil),             // 25: pb.LogoutRequest
 	(*PingRequest)(nil),               // 26: pb.PingRequest
 	(*PingResponse)(nil),              // 27: pb.PingResponse
-	(*PlansResponse)(nil),             // 28: pb.PlansResponse
-	(*Plan)(nil),                      // 29: pb.Plan
+	(*Plan)(nil),                      // 28: pb.Plan
+	(*PlansResponse)(nil),             // 29: pb.PlansResponse
 	(*RateRequest)(nil),               // 30: pb.RateRequest
 	(*RegisterRequest)(nil),           // 31: pb.RegisterRequest
 	(*SetAutoconnectRequest)(nil),     // 32: pb.SetAutoconnectRequest
@@ -3073,7 +3064,7 @@ var file_pb_daemon_proto_depIdxs = []int32{
 	1,  // 9: pb.GroupsRequest.protocol:type_name -> pb.ProtocolEnum
 	3,  // 10: pb.GroupsRequest.obfuscate:type_name -> pb.BooleanEnum
 	47, // 11: pb.String.data:type_name -> google.protobuf.Any
-	47, // 12: pb.PlansResponse.plans:type_name -> google.protobuf.Any
+	28, // 12: pb.PlansResponse.plans:type_name -> pb.Plan
 	47, // 13: pb.SettingsResponse.data:type_name -> google.protobuf.Any
 	0,  // 14: pb.StatusResponse.technology:type_name -> pb.TechnologyEnum
 	1,  // 15: pb.StatusResponse.protocol:type_name -> pb.ProtocolEnum
@@ -3121,7 +3112,7 @@ var file_pb_daemon_proto_depIdxs = []int32{
 	23, // 57: pb.Daemon.LoginOAuth2:output_type -> pb.LoginOAuth2Response
 	13, // 58: pb.Daemon.LoginOAuth2Callback:output_type -> pb.Payload
 	48, // 59: pb.Daemon.Logout:output_type -> google.protobuf.Empty
-	28, // 60: pb.Daemon.Plans:output_type -> pb.PlansResponse
+	29, // 60: pb.Daemon.Plans:output_type -> pb.PlansResponse
 	27, // 61: pb.Daemon.Ping:output_type -> pb.PingResponse
 	13, // 62: pb.Daemon.RateConnection:output_type -> pb.Payload
 	13, // 63: pb.Daemon.Register:output_type -> pb.Payload
@@ -3443,7 +3434,7 @@ func file_pb_daemon_proto_init() {
 			}
 		}
 		file_pb_daemon_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PlansResponse); i {
+			switch v := v.(*Plan); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3455,7 +3446,7 @@ func file_pb_daemon_proto_init() {
 			}
 		}
 		file_pb_daemon_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Plan); i {
+			switch v := v.(*PlansResponse); i {
 			case 0:
 				return &v.state
 			case 1:
