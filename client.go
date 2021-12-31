@@ -100,7 +100,10 @@ func (c Client) Login(req messages.LoginRequest) error {
 }
 
 // LoginOAuth2 calls the LoginOAuth2 RPC.
-func (c Client) LoginOAuth2() error {
-	_, err := c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
-	return err
+func (c Client) LoginOAuth2() (messages.LoginOAuth2Response, error) {
+	r, err := c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return messages.LoginOAuth2Response{}, err
+	}
+	return messages.FormatLoginOAuth2LoginResponse(r), err
 }
