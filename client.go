@@ -15,6 +15,8 @@ type Client struct {
 	daemonClient   pb.DaemonClient
 }
 
+// getContext returns a new context object with a timeout. The value of the timeout is
+// defined in the common constants.
 func getContext() context.Context {
 	ctx, _ := context.WithTimeout(context.Background(), constants.RequestTimeout)
 	return ctx
@@ -38,10 +40,19 @@ func (c Client) AccountInfo() (messages.AccountResponse, error) {
 	return messages.FormatAccountResponse(r), nil
 }
 
+// Cities calls the Cities RPC and returns a CitiesResponse.
 func (c Client) Cities(req messages.CitiesRequest) (messages.CitiesResponse, error) {
 	r, err := c.daemonClient.Cities(getContext(), req.ToProtoBuffer())
 	if err != nil {
 		return messages.CitiesResponse{}, err
 	}
 	return messages.FormatCitiesResponse(r), nil
+}
+
+// Connect does something
+
+// Disconnect calls the Disconnect RPC and terminates the current VPN session.
+func (c Client) Disconnect() error {
+	_, err := c.daemonClient.Disconnect(getContext(), &pb.DisconnectRequest{Id: 0})
+	return err
 }
