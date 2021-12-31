@@ -129,3 +129,9 @@ func (c Client) Ping() error {
 	_, err := c.daemonClient.Ping(getContext(), &emptypb.Empty{})
 	return err
 }
+
+// RateConnection calls the RateConnection RPC.
+func (c Client) RateConnection(req messages.RateConnectionRequest) error {
+	_, err := c.daemonClient.RateConnection(getContext(), req.ToProtoBuffer())
+	return err
+}
