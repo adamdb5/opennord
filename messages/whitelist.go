@@ -10,8 +10,8 @@ type Ports struct {
 
 // Whitelist holds a Ports struct and a slice of subnets in CIDR notation.
 type Whitelist struct {
-	ports   Ports    // The UDP and TCP ports
-	subnets []string // The subnets
+	Ports   Ports    // The UDP and TCP ports
+	Subnets []string // The subnets
 }
 
 // ToProtoBuffer Converts the Ports structure into the protobuffer structure.
@@ -25,7 +25,7 @@ func (p Ports) ToProtoBuffer() *pb.Ports {
 // ToProtoBuffer Converts the Whitelist structure into the protobuffer structure.
 func (w Whitelist) ToProtoBuffer() *pb.Whitelist {
 	return &pb.Whitelist{
-		Ports:   w.ports.ToProtoBuffer(),
-		Subnets: w.subnets,
+		Ports:   w.Ports.ToProtoBuffer(),
+		Subnets: w.Subnets,
 	}
 }
