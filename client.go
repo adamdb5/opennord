@@ -1,6 +1,7 @@
 package opennord
 
 import (
+	"github.com/adamdb5/opennord/constants"
 	"github.com/adamdb5/opennord/messages"
 	"github.com/adamdb5/opennord/pb"
 	"golang.org/x/net/context"
@@ -14,10 +15,14 @@ type Client struct {
 	daemonClient   pb.DaemonClient
 }
 
+func getContext() context.Context {
+	ctx, _ := context.WithTimeout(context.Background(), constants.RequestTimeout)
+	return ctx
+}
+
 // Status calls the Status RPC and returns a StatusResponse.
 func (c Client) Status() (messages.StatusResponse, error) {
-	ctx := context.Background()
-	r, err := c.daemonClient.Status(ctx, &emptypb.Empty{})
+	r, err := c.daemonClient.Status(getContext(), &emptypb.Empty{})
 	if err != nil {
 		return messages.StatusResponse{}, err
 	}
@@ -26,8 +31,7 @@ func (c Client) Status() (messages.StatusResponse, error) {
 
 // AccountInfo calls the AccountInfo RPC and returns an AccountResponse.
 func (c Client) AccountInfo() (messages.AccountResponse, error) {
-	ctx := context.Background()
-	r, err := c.daemonClient.AccountInfo(ctx, messages.AccountRequest{}.ToProtoBuffer())
+	r, err := c.daemonClient.AccountInfo(getContext(), messages.AccountRequest{}.ToProtoBuffer())
 	if err != nil {
 		return messages.AccountResponse{}, err
 	}
@@ -35,8 +39,7 @@ func (c Client) AccountInfo() (messages.AccountResponse, error) {
 }
 
 func (c Client) Cities(req messages.CitiesRequest) (messages.CitiesResponse, error) {
-	ctx := context.Background()
-	r, err := c.daemonClient.Cities(ctx, req.ToProtoBuffer())
+	r, err := c.daemonClient.Cities(getContext(), req.ToProtoBuffer())
 	if err != nil {
 		return messages.CitiesResponse{}, err
 	}
