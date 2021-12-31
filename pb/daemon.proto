@@ -209,7 +209,8 @@ message SetTechnologyRequest {
 }
 
 message SetWhitelistRequest {
-  Whitelist whitelist = 1;
+  optional int32 type = 1;
+  Whitelist whitelist = 2;
 }
 
 message SettingsResponse {
