@@ -11,7 +11,7 @@ service Daemon {
   rpc AccountInfo (AccountRequest) returns (AccountResponse) {}
   rpc Cities (CitiesRequest) returns (CitiesResponse) {}
   rpc Connect (ConnectRequest) returns (Payload) {} // Payload0
-  rpc Countries (CountriesRequest) returns (Payload) {}
+  rpc Countries (CountriesRequest) returns (CountriesResponse) {}
   rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
   rpc FrontendCountries (CountriesRequest) returns (CountriesResponse) {}
   rpc Groups (GroupsRequest) returns (GroupsResponse) {}
@@ -72,6 +72,16 @@ message CitiesResponse {
   repeated string names = 2;
 }
 
+message CountriesRequest {
+  ProtocolEnum protocol = 1;
+  BooleanEnum obfuscate = 2;
+}
+
+message CountriesResponse {
+  int32 type = 1;
+  repeated string names = 2;
+}
+
 message Bool {
   bool value = 1;
 }
@@ -101,15 +111,6 @@ message ConnectRequest {
   bool whiteList = 7;
   bool serverGroup = 8;
   string nordLynxPrivateKey = 9;
-}
-
-message CountriesRequest {
-  string protocol = 1;
-  bool obfuscate = 2;
-}
-
-message CountriesResponse {
-  repeated string countries = 1;
 }
 
 message Country {

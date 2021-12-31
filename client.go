@@ -51,6 +51,15 @@ func (c Client) Cities(req messages.CitiesRequest) (messages.CitiesResponse, err
 
 // Connect does something
 
+// Countries calls the Countries RPC and returns a CountriesResponse.
+func (c Client) Countries(req messages.CountriesRequest) (messages.CountriesResponse, error) {
+	r, err := c.daemonClient.Countries(getContext(), req.ToProtoBuffer())
+	if err != nil {
+		return messages.CountriesResponse{}, err
+	}
+	return messages.FormatCountriesResponse(r), nil
+}
+
 // Disconnect calls the Disconnect RPC and terminates the current VPN session.
 func (c Client) Disconnect() error {
 	_, err := c.daemonClient.Disconnect(getContext(), &pb.DisconnectRequest{Id: 0})

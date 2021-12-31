@@ -22,7 +22,7 @@ type DaemonClient interface {
 	AccountInfo(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error)
 	Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*CitiesResponse, error)
 	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*Payload, error)
-	Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*Payload, error)
+	Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error)
 	Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*Payload, error)
 	FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error)
 	Groups(ctx context.Context, in *GroupsRequest, opts ...grpc.CallOption) (*GroupsResponse, error)
@@ -88,8 +88,8 @@ func (c *daemonClient) Connect(ctx context.Context, in *ConnectRequest, opts ...
 	return out, nil
 }
 
-func (c *daemonClient) Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error) {
+	out := new(CountriesResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Countries", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -356,7 +356,7 @@ type DaemonServer interface {
 	AccountInfo(context.Context, *AccountRequest) (*AccountResponse, error)
 	Cities(context.Context, *CitiesRequest) (*CitiesResponse, error)
 	Connect(context.Context, *ConnectRequest) (*Payload, error)
-	Countries(context.Context, *CountriesRequest) (*Payload, error)
+	Countries(context.Context, *CountriesRequest) (*CountriesResponse, error)
 	Disconnect(context.Context, *DisconnectRequest) (*Payload, error)
 	FrontendCountries(context.Context, *CountriesRequest) (*CountriesResponse, error)
 	Groups(context.Context, *GroupsRequest) (*GroupsResponse, error)
@@ -401,7 +401,7 @@ func (UnimplementedDaemonServer) Cities(context.Context, *CitiesRequest) (*Citie
 func (UnimplementedDaemonServer) Connect(context.Context, *ConnectRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
 }
-func (UnimplementedDaemonServer) Countries(context.Context, *CountriesRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) Countries(context.Context, *CountriesRequest) (*CountriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Countries not implemented")
 }
 func (UnimplementedDaemonServer) Disconnect(context.Context, *DisconnectRequest) (*Payload, error) {
