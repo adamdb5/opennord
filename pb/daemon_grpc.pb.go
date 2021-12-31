@@ -45,7 +45,7 @@ type DaemonClient interface {
 	SetObfuscate(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetProtocol(ctx context.Context, in *SetProtocolRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetTechnology(ctx context.Context, in *SetTechnologyRequest, opts ...grpc.CallOption) (*Payload, error)
-	SetWhitelist(ctx context.Context, in *SetWhitelistRequest, opts ...grpc.CallOption) (*Payload, error)
+	SetWhitelist(ctx context.Context, in *SetWhitelistRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Settings(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*SettingsResponse, error)
 	SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*Payload, error)
 	SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -295,8 +295,8 @@ func (c *daemonClient) SetTechnology(ctx context.Context, in *SetTechnologyReque
 	return out, nil
 }
 
-func (c *daemonClient) SetWhitelist(ctx context.Context, in *SetWhitelistRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) SetWhitelist(ctx context.Context, in *SetWhitelistRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SetWhitelist", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -379,7 +379,7 @@ type DaemonServer interface {
 	SetObfuscate(context.Context, *SetGenericRequest) (*Payload, error)
 	SetProtocol(context.Context, *SetProtocolRequest) (*Payload, error)
 	SetTechnology(context.Context, *SetTechnologyRequest) (*Payload, error)
-	SetWhitelist(context.Context, *SetWhitelistRequest) (*Payload, error)
+	SetWhitelist(context.Context, *SetWhitelistRequest) (*emptypb.Empty, error)
 	Settings(context.Context, *SettingsRequest) (*SettingsResponse, error)
 	SettingsProtocols(context.Context, *SettingsRequest) (*Payload, error)
 	SettingsTechnologies(context.Context, *SettingsRequest) (*Payload, error)
@@ -470,7 +470,7 @@ func (UnimplementedDaemonServer) SetProtocol(context.Context, *SetProtocolReques
 func (UnimplementedDaemonServer) SetTechnology(context.Context, *SetTechnologyRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetTechnology not implemented")
 }
-func (UnimplementedDaemonServer) SetWhitelist(context.Context, *SetWhitelistRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) SetWhitelist(context.Context, *SetWhitelistRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetWhitelist not implemented")
 }
 func (UnimplementedDaemonServer) Settings(context.Context, *SettingsRequest) (*SettingsResponse, error) {

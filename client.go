@@ -135,3 +135,19 @@ func (c Client) RateConnection(req messages.RateConnectionRequest) error {
 	_, err := c.daemonClient.RateConnection(getContext(), req.ToProtoBuffer())
 	return err
 }
+
+// SetAutoConnect calls the SetAutoConnect RPC.
+// TODO: fix
+func (c Client) SetAutoConnect(req messages.SetAutoConnectRequest) (*pb.Payload, error) {
+	r, err := c.daemonClient.SetAutoConnect(getContext(), req.ToProtoBuffer())
+	if err != nil {
+		return &pb.Payload{}, err
+	}
+	return r, err
+}
+
+// SetWhitelist calls the SetWhitelist RPC.
+func (c Client) SetWhitelist(req messages.SetWhitelistRequest) error {
+	_, err := c.daemonClient.SetWhitelist(getContext(), req.ToProtoBuffer())
+	return err
+}

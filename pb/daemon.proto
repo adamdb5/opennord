@@ -23,7 +23,7 @@ service Daemon {
   rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Implemented
   rpc Ping (google.protobuf.Empty) returns (google.protobuf.Empty) {}              // Implemented
   rpc RateConnection (RateConnectionRequest) returns (Payload) {}                  // Implemented
-  rpc Register (RegisterRequest) returns (Payload) {}                              // Not Implemented
+  rpc Register (RegisterRequest) returns (Payload) {}                              // Implemented (not supported)
   rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Not Implemented
   rpc SetCyberSec (SetCyberSecRequest) returns (Payload) {}                        // Not Implemented
   rpc SetDefaults (google.protobuf.Empty) returns (Payload) {}                     // Not Implemented
@@ -34,7 +34,7 @@ service Daemon {
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Not Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Not Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Not Implemented
-  rpc SetWhitelist (SetWhitelistRequest) returns (Payload) {}                      // Not Implemented
+  rpc SetWhitelist (SetWhitelistRequest) returns (google.protobuf.Empty) {}        // Implemented
   rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Not Implemented
   rpc SettingsProtocols (SettingsRequest) returns (Payload) {}                     // Not Implemented
   rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}                  // Not Implemented
@@ -93,8 +93,8 @@ message Payload {
 }
 
 message Whitelist {
-  repeated int32 ports = 1;
-  repeated int32 subnets = 2;
+  Ports ports = 1;
+  repeated string subnets = 2;
 }
 
 message Ports {
@@ -176,16 +176,6 @@ message RegisterRequest {
   string password = 2;
 }
 
-message SetAutoconnectRequest {
-  string serverTag = 1;
-  string protocol = 2;
-  bool cyberSec = 3;
-  bool obfuscate = 4;
-  bool autoConnect = 5;
-  bool dns = 6;
-  bool whitelist = 7;
-}
-
 message SetGenericRequest {
   bool enabled = 1;
 }
@@ -219,7 +209,7 @@ message SetTechnologyRequest {
 }
 
 message SetWhitelistRequest {
-  repeated string whitelist = 1;
+  Whitelist whitelist = 1;
 }
 
 message SettingsResponse {
@@ -275,4 +265,13 @@ enum BooleanEnum {
 // Undefined
 message SettingsRequest { }
 message AccountRequest { }
-message SetAutoConnectRequest { }
+
+message SetAutoConnectRequest {
+  string serverTag = 1;
+  ProtocolEnum protocol = 2;
+  BooleanEnum cyberSec = 3;
+  BooleanEnum obfuscate = 4;
+  BooleanEnum autoConnect = 5;
+  BooleanEnum dns = 6;
+  BooleanEnum whitelist = 7;
+}
