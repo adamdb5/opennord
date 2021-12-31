@@ -56,3 +56,12 @@ func (c Client) Disconnect() error {
 	_, err := c.daemonClient.Disconnect(getContext(), &pb.DisconnectRequest{Id: 0})
 	return err
 }
+
+// Groups calls the Groups RPC and returns a GroupsResponse.
+func (c Client) Groups(req messages.GroupsRequest) (messages.GroupsResponse, error) {
+	r, err := c.daemonClient.Groups(getContext(), req.ToProtoBuffer())
+	if err != nil {
+		return messages.GroupsResponse{}, err
+	}
+	return messages.FormatGroupsResponse(r), nil
+}

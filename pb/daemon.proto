@@ -14,7 +14,7 @@ service Daemon {
   rpc Countries (CountriesRequest) returns (Payload) {}
   rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
   rpc FrontendCountries (CountriesRequest) returns (CountriesResponse) {}
-  rpc Groups (GroupsRequest) returns (Payload) {}
+  rpc Groups (GroupsRequest) returns (GroupsResponse) {}
   rpc IsLoggedIn (google.protobuf.Empty) returns (Bool) {}
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc LoginOAuth2 (google.protobuf.Empty) returns (Payload) {} // Not implemented?
@@ -128,8 +128,13 @@ message DisconnectRequest {
 }
 
 message GroupsRequest {
-  string protocol = 1;
-  bool obfuscate = 2;
+  ProtocolEnum protocol = 1;
+  BooleanEnum obfuscate = 2;
+}
+
+message GroupsResponse {
+  int32 type = 1;
+  repeated string names = 2;
 }
 
 message LoginRequest {
