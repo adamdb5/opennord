@@ -6,7 +6,6 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"log"
 )
 
 // Client is the public stub for of communicating with the NordVPN daemon.
@@ -16,30 +15,30 @@ type Client struct {
 }
 
 // Status calls the Status RPC and returns a StatusResponse.
-func (c Client) Status() messages.StatusResponse {
+func (c Client) Status() (messages.StatusResponse, error) {
 	ctx := context.Background()
 	r, err := c.daemonClient.Status(ctx, &emptypb.Empty{})
 	if err != nil {
-		log.Fatalf("Error calling RPC Status: %s", err)
+		return messages.StatusResponse{}, err
 	}
-	return messages.FormatStatusResponse(r)
+	return messages.FormatStatusResponse(r), nil
 }
 
 // AccountInfo calls the AccountInfo RPC and returns an AccountResponse.
-func (c Client) AccountInfo() messages.AccountResponse {
+func (c Client) AccountInfo() (messages.AccountResponse, error) {
 	ctx := context.Background()
 	r, err := c.daemonClient.AccountInfo(ctx, messages.AccountRequest{}.ToProtoBuffer())
 	if err != nil {
-		log.Fatalf("Error calling RPC AccountInfo: %s", err)
+		return messages.AccountResponse{}, err
 	}
-	return messages.FormatAccountResponse(r)
+	return messages.FormatAccountResponse(r), nil
 }
 
-func (c Client) Cities(req messages.CitiesRequest) messages.CitiesResponse {
+func (c Client) Cities(req messages.CitiesRequest) (messages.CitiesResponse, error) {
 	ctx := context.Background()
 	r, err := c.daemonClient.Cities(ctx, req.ToProtoBuffer())
 	if err != nil {
-		log.Fatalf("Error calling RPC Cities: %s", err)
+		return messages.CitiesResponse{}, err
 	}
-	return messages.FormatCitiesResponse(r)
+	return messages.FormatCitiesResponse(r), nil
 }

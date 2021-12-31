@@ -4,7 +4,6 @@ import (
 	"github.com/adamdb5/opennord/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"log"
 )
 
 const (
@@ -12,12 +11,8 @@ const (
 )
 
 // getConnection creates a new gRPC connection.
-func getConnection() *grpc.ClientConn {
-	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Could not connect to socket.")
-	}
-	return conn
+func getConnection() (*grpc.ClientConn, error) {
+	return grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 }
 
 // getDaemonClient creates a new protobuffer client.
@@ -26,11 +21,14 @@ func getDaemonClient(conn *grpc.ClientConn) pb.DaemonClient {
 }
 
 // NewOpenNordClient creates a client for interacting with the NordVPN daemon.
-func NewOpenNordClient() Client {
-	conn := getConnection()
+func NewOpenNordClient() (Client, error) {
+	conn, err := getConnection()
+	if err != nil {
+		return Client{}, err
+	}
 	client := getDaemonClient(conn)
 	return Client{
 		grpcConnection: conn,
 		daemonClient:   client,
-	}
+	}, nil
 }

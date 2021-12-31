@@ -1,4 +1,4 @@
-package types
+package constants
 
 import "github.com/adamdb5/opennord/pb"
 

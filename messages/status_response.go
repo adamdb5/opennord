@@ -1,47 +1,47 @@
 package messages
 
 import (
+	"github.com/adamdb5/opennord/constants"
 	"github.com/adamdb5/opennord/pb"
-	"github.com/adamdb5/opennord/types"
 )
 
 // StatusResponse holds the response from a Status RPC call.
 type StatusResponse struct {
-	state      string           // The state of the VPN
-	technology types.Technology // The technology currently being used
-	protocol   types.Protocol   // The protocol currently being used
-	ip         string           // The remote server's IP address
-	hostname   string           // The remote server's hostname
-	country    string           // The remote server's country
-	city       string           // The remote server's city
-	download   int64            // The number of bytes downloaded in this session
-	upload     int64            // The number of bytes uploaded in this session
-	uptime     int64            // The time elapsed for this session in nanoseconds
+	state      string               // The state of the VPN
+	technology constants.Technology // The technology currently being used
+	protocol   constants.Protocol   // The protocol currently being used
+	ip         string               // The remote server's IP address
+	hostname   string               // The remote server's hostname
+	country    string               // The remote server's country
+	city       string               // The remote server's city
+	download   int64                // The number of bytes downloaded in this session
+	upload     int64                // The number of bytes uploaded in this session
+	uptime     int64                // The time elapsed for this session in nanoseconds
 }
 
 // FormatStatusResponse converts the protobuffer struct to an StatusResponse.
 func FormatStatusResponse(response *pb.StatusResponse) StatusResponse {
-	var technology types.Technology
-	var protocol types.Protocol
+	var technology constants.Technology
+	var protocol constants.Protocol
 
 	switch response.GetTechnology() {
 	case pb.TechnologyEnum_OPENVPN:
-		technology = types.OpenVPN
+		technology = constants.OpenVPN
 	case pb.TechnologyEnum_NORDLYNX:
-		technology = types.NordLynx
+		technology = constants.NordLynx
 	case pb.TechnologyEnum_SKYLARK:
-		technology = types.Skylark
+		technology = constants.Skylark
 	default:
-		technology = types.Unknown
+		technology = constants.Unknown
 	}
 
 	switch response.GetProtocol() {
 	case pb.ProtocolEnum_UDP:
-		protocol = types.UDP
+		protocol = constants.UDP
 	case pb.ProtocolEnum_TCP:
-		protocol = types.TCP
+		protocol = constants.TCP
 	default:
-		protocol = types.Unknown
+		protocol = constants.Unknown
 	}
 
 	return StatusResponse{
@@ -65,13 +65,13 @@ func (msg StatusResponse) State() string {
 
 // Technology returns the current technology being used.
 // Possible values are OpenVPN(1), NordLynx(2), Skylark(3)
-func (msg StatusResponse) Technology() types.Technology {
+func (msg StatusResponse) Technology() constants.Technology {
 	return msg.technology
 }
 
 // Protocol returns the current protocol being used.
 // Possible values are UDP(1), TCP(2)
-func (msg StatusResponse) Protocol() types.Protocol {
+func (msg StatusResponse) Protocol() constants.Protocol {
 	return msg.protocol
 }
 
