@@ -92,3 +92,15 @@ func (c Client) IsLoggedIn() (messages.IsLoggedInResponse, error) {
 	}
 	return messages.FormatIsLoggedInResponse(r), nil
 }
+
+// Login calls the Login RPC.
+func (c Client) Login(req messages.LoginRequest) error {
+	_, err := c.daemonClient.Login(getContext(), req.ToProtoBuffer())
+	return err
+}
+
+// LoginOAuth2 calls the LoginOAuth2 RPC.
+func (c Client) LoginOAuth2() error {
+	_, err := c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
+	return err
+}

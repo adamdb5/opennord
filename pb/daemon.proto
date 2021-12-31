@@ -8,38 +8,38 @@ option go_package = "github.com/adamdb5/opennord/pb";
 package pb;
 
 service Daemon {
-  rpc AccountInfo (AccountRequest) returns (AccountResponse) {}
-  rpc Cities (CitiesRequest) returns (CitiesResponse) {}
-  rpc Connect (ConnectRequest) returns (Payload) {} // Payload0
-  rpc Countries (CountriesRequest) returns (CountriesResponse) {}
-  rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
-  rpc FrontendCountries (CountriesRequest) returns (FrontendCountriesResponse) {}
-  rpc Groups (GroupsRequest) returns (GroupsResponse) {}
-  rpc IsLoggedIn (google.protobuf.Empty) returns (IsLoggedInResponse) {}
-  rpc Login (LoginRequest) returns (LoginResponse) {}
-  rpc LoginOAuth2 (google.protobuf.Empty) returns (Payload) {} // Not implemented?
-  rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {} // Not implemented?
-  rpc Logout (LogoutRequest) returns (Payload) {}
-  rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}
-  rpc Ping (PingRequest) returns (PingResponse) {}
-  rpc RateConnection (RateRequest) returns (Payload) {}
-  rpc Register (RegisterRequest) returns (Payload) {}
-  rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}
-  rpc SetCyberSec (SetCyberSecRequest) returns (Payload) {}
-  rpc SetDefaults (google.protobuf.Empty) returns (Payload) {}
-  rpc SetDns (SetDNSRequest) returns (Payload) {}
-  rpc SetFirewall (SetGenericRequest) returns (Payload) {}
-  rpc SetKillSwitch (SetKillSwitchRequest) returns (Payload) {}
-  rpc SetNotify (SetNotifyRequest) returns (Payload) {}
-  rpc SetObfuscate (SetGenericRequest) returns (Payload) {}
-  rpc SetProtocol (SetProtocolRequest) returns (Payload) {}
-  rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}
-  rpc SetWhitelist (SetWhitelistRequest) returns (Payload) {}
-  rpc Settings (SettingsRequest) returns (SettingsResponse) {}
-  rpc SettingsProtocols (SettingsRequest) returns (Payload) {}
-  rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}
-  rpc Status (google.protobuf.Empty) returns (StatusResponse) {}
-  rpc SetIpv6 (SetGenericRequest) returns (Payload) {} // PayloadB
+  rpc AccountInfo (AccountRequest) returns (AccountResponse) {}                    // Implemented
+  rpc Cities (CitiesRequest) returns (CitiesResponse) {}                           // Implemented
+  rpc Connect (ConnectRequest) returns (Payload) {}                                // Not Implemented
+  rpc Countries (CountriesRequest) returns (CountriesResponse) {}                  // Implemented
+  rpc Disconnect (DisconnectRequest) returns (Payload) {}                          // Implemented
+  rpc FrontendCountries (CountriesRequest) returns (FrontendCountriesResponse) {}  // Implemented
+  rpc Groups (GroupsRequest) returns (GroupsResponse) {}                           // Implemented
+  rpc IsLoggedIn (google.protobuf.Empty) returns (IsLoggedInResponse) {}           // Implemented
+  rpc Login (LoginRequest) returns (google.protobuf.Empty) {}                      // Implemented
+  rpc LoginOAuth2 (google.protobuf.Empty) returns (LoginOAuth2Response) {}         // Implemented
+  rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {}             // Not Implemented
+  rpc Logout (LogoutRequest) returns (Payload) {}                                  // Not Implemented
+  rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Not Implemented
+  rpc Ping (PingRequest) returns (PingResponse) {}                                 // Not Implemented
+  rpc RateConnection (RateRequest) returns (Payload) {}                            // Not Implemented
+  rpc Register (RegisterRequest) returns (Payload) {}                              // Not Implemented
+  rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Not Implemented
+  rpc SetCyberSec (SetCyberSecRequest) returns (Payload) {}                        // Not Implemented
+  rpc SetDefaults (google.protobuf.Empty) returns (Payload) {}                     // Not Implemented
+  rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Not Implemented
+  rpc SetFirewall (SetGenericRequest) returns (Payload) {}                         // Not Implemented
+  rpc SetKillSwitch (SetKillSwitchRequest) returns (Payload) {}                    // Not Implemented
+  rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Not Implemented
+  rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Not Implemented
+  rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Not Implemented
+  rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Not Implemented
+  rpc SetWhitelist (SetWhitelistRequest) returns (Payload) {}                      // Not Implemented
+  rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Not Implemented
+  rpc SettingsProtocols (SettingsRequest) returns (Payload) {}                     // Not Implemented
+  rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}                  // Not Implemented
+  rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
+  rpc SetIpv6 (SetGenericRequest) returns (Payload) {}                             // Not Implemented
 }
 
 service DaemonConnect {
@@ -156,9 +156,8 @@ message LoginRequest {
   string password = 2;
 }
 
-message LoginResponse {
-  string type = 1;
-  string url = 2;
+message LoginOAuth2Response {
+  string url = 1;
 }
 
 message String {

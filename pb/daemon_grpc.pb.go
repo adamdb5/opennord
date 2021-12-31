@@ -27,8 +27,8 @@ type DaemonClient interface {
 	FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*FrontendCountriesResponse, error)
 	Groups(ctx context.Context, in *GroupsRequest, opts ...grpc.CallOption) (*GroupsResponse, error)
 	IsLoggedIn(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*IsLoggedInResponse, error)
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*Payload, error)
 	Plans(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PlansResponse, error)
@@ -133,8 +133,8 @@ func (c *daemonClient) IsLoggedIn(ctx context.Context, in *emptypb.Empty, opts .
 	return out, nil
 }
 
-func (c *daemonClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
-	out := new(LoginResponse)
+func (c *daemonClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -142,8 +142,8 @@ func (c *daemonClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc
 	return out, nil
 }
 
-func (c *daemonClient) LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoginOAuth2Response, error) {
+	out := new(LoginOAuth2Response)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/LoginOAuth2", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -361,8 +361,8 @@ type DaemonServer interface {
 	FrontendCountries(context.Context, *CountriesRequest) (*FrontendCountriesResponse, error)
 	Groups(context.Context, *GroupsRequest) (*GroupsResponse, error)
 	IsLoggedIn(context.Context, *emptypb.Empty) (*IsLoggedInResponse, error)
-	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	LoginOAuth2(context.Context, *emptypb.Empty) (*Payload, error)
+	Login(context.Context, *LoginRequest) (*emptypb.Empty, error)
+	LoginOAuth2(context.Context, *emptypb.Empty) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error)
 	Logout(context.Context, *LogoutRequest) (*Payload, error)
 	Plans(context.Context, *emptypb.Empty) (*PlansResponse, error)
@@ -416,10 +416,10 @@ func (UnimplementedDaemonServer) Groups(context.Context, *GroupsRequest) (*Group
 func (UnimplementedDaemonServer) IsLoggedIn(context.Context, *emptypb.Empty) (*IsLoggedInResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsLoggedIn not implemented")
 }
-func (UnimplementedDaemonServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
+func (UnimplementedDaemonServer) Login(context.Context, *LoginRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedDaemonServer) LoginOAuth2(context.Context, *emptypb.Empty) (*Payload, error) {
+func (UnimplementedDaemonServer) LoginOAuth2(context.Context, *emptypb.Empty) (*LoginOAuth2Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginOAuth2 not implemented")
 }
 func (UnimplementedDaemonServer) LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error) {
