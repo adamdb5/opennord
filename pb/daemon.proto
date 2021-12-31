@@ -13,7 +13,7 @@ service Daemon {
   rpc Connect (ConnectRequest) returns (Payload) {} // Payload0
   rpc Countries (CountriesRequest) returns (CountriesResponse) {}
   rpc Disconnect (DisconnectRequest) returns (Payload) {} // Payload0
-  rpc FrontendCountries (CountriesRequest) returns (CountriesResponse) {}
+  rpc FrontendCountries (CountriesRequest) returns (FrontendCountriesResponse) {}
   rpc Groups (GroupsRequest) returns (GroupsResponse) {}
   rpc IsLoggedIn (google.protobuf.Empty) returns (Bool) {}
   rpc Login (LoginRequest) returns (LoginResponse) {}
@@ -80,6 +80,15 @@ message CountriesRequest {
 message CountriesResponse {
   int32 type = 1;
   repeated string names = 2;
+}
+
+message FrontendCountry {
+  string name = 1;
+  string code = 2;
+}
+
+message FrontendCountriesResponse {
+  repeated FrontendCountry countries = 1;
 }
 
 message Bool {

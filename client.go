@@ -66,6 +66,15 @@ func (c Client) Disconnect() error {
 	return err
 }
 
+// FrontendCountries calls the FrontendCountries RPC and returns a CountriesResponse.
+func (c Client) FrontendCountries(req messages.CountriesRequest) (messages.FrontendCountriesResponse, error) {
+	r, err := c.daemonClient.FrontendCountries(getContext(), req.ToProtoBuffer())
+	if err != nil {
+		return messages.FrontendCountriesResponse{}, err
+	}
+	return messages.FormatFrontendCountriesResponse(r), nil
+}
+
 // Groups calls the Groups RPC and returns a GroupsResponse.
 func (c Client) Groups(req messages.GroupsRequest) (messages.GroupsResponse, error) {
 	r, err := c.daemonClient.Groups(getContext(), req.ToProtoBuffer())

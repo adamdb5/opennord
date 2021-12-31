@@ -24,7 +24,7 @@ type DaemonClient interface {
 	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*Payload, error)
 	Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error)
 	Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*Payload, error)
-	FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error)
+	FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*FrontendCountriesResponse, error)
 	Groups(ctx context.Context, in *GroupsRequest, opts ...grpc.CallOption) (*GroupsResponse, error)
 	IsLoggedIn(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Bool, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
@@ -106,8 +106,8 @@ func (c *daemonClient) Disconnect(ctx context.Context, in *DisconnectRequest, op
 	return out, nil
 }
 
-func (c *daemonClient) FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error) {
-	out := new(CountriesResponse)
+func (c *daemonClient) FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*FrontendCountriesResponse, error) {
+	out := new(FrontendCountriesResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/FrontendCountries", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -358,7 +358,7 @@ type DaemonServer interface {
 	Connect(context.Context, *ConnectRequest) (*Payload, error)
 	Countries(context.Context, *CountriesRequest) (*CountriesResponse, error)
 	Disconnect(context.Context, *DisconnectRequest) (*Payload, error)
-	FrontendCountries(context.Context, *CountriesRequest) (*CountriesResponse, error)
+	FrontendCountries(context.Context, *CountriesRequest) (*FrontendCountriesResponse, error)
 	Groups(context.Context, *GroupsRequest) (*GroupsResponse, error)
 	IsLoggedIn(context.Context, *emptypb.Empty) (*Bool, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
@@ -407,7 +407,7 @@ func (UnimplementedDaemonServer) Countries(context.Context, *CountriesRequest) (
 func (UnimplementedDaemonServer) Disconnect(context.Context, *DisconnectRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Disconnect not implemented")
 }
-func (UnimplementedDaemonServer) FrontendCountries(context.Context, *CountriesRequest) (*CountriesResponse, error) {
+func (UnimplementedDaemonServer) FrontendCountries(context.Context, *CountriesRequest) (*FrontendCountriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FrontendCountries not implemented")
 }
 func (UnimplementedDaemonServer) Groups(context.Context, *GroupsRequest) (*GroupsResponse, error) {
