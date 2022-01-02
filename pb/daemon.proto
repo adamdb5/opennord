@@ -26,7 +26,7 @@ service Daemon {
   rpc Register (RegisterRequest) returns (Payload) {}                              // Implemented (not supported)
   rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Not Implemented
   rpc SetCyberSec (SetCyberSecRequest) returns (google.protobuf.Empty) {}          // Implemented
-  rpc SetDefaults (google.protobuf.Empty) returns (Payload) {}                     // Not Implemented
+  rpc SetDefaults (google.protobuf.Empty) returns (Payload) {}                     // Implemented
   rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Not Implemented
   rpc SetFirewall (SetGenericRequest) returns (Payload) {}                         // Not Implemented
   rpc SetKillSwitch (SetKillSwitchRequest) returns (Payload) {}                    // Not Implemented

@@ -159,3 +159,9 @@ func (c Client) SetCyberSec(enabled bool) error {
 	)
 	return err
 }
+
+// SetDefaults calls the SetDefaults RPC.
+func (c Client) SetDefaults() error {
+	_, err := c.daemonClient.SetDefaults(getContext(), &emptypb.Empty{})
+	return err
+}
