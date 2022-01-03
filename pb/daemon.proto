@@ -33,7 +33,7 @@ service Daemon {
   rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented (not supported)
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Implemented
-  rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Not Implemented
+  rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Implemented
   rpc SetWhitelist (SetWhitelistRequest) returns (google.protobuf.Empty) {}        // Implemented
   rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Not Implemented
   rpc SettingsProtocols (SettingsRequest) returns (Payload) {}                     // Not Implemented
