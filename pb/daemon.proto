@@ -31,7 +31,7 @@ service Daemon {
   rpc SetFirewall (SetGenericRequest) returns (google.protobuf.Empty) {}           // Implemented
   rpc SetKillSwitch (SetKillSwitchRequest) returns (google.protobuf.Empty) {}      // Implemented
   rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented (not supported)
-  rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Not Implemented
+  rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Not Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Not Implemented
   rpc SetWhitelist (SetWhitelistRequest) returns (google.protobuf.Empty) {}        // Implemented

@@ -204,3 +204,11 @@ func (c Client) SetNotify(enabled bool) error {
 	})
 	return err
 }
+
+// SetObfuscate calls the SetObfuscate RPC.
+func (c Client) SetObfuscate(enabled bool) error {
+	_, err := c.daemonClient.SetObfuscate(getContext(), &pb.SetGenericRequest{
+		Enabled: enabled,
+	})
+	return err
+}
