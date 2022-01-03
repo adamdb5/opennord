@@ -48,8 +48,8 @@ type DaemonClient interface {
 	SetTechnology(ctx context.Context, in *SetTechnologyRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetWhitelist(ctx context.Context, in *SetWhitelistRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Settings(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*SettingsResponse, error)
-	SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*Payload, error)
-	SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*Payload, error)
+	SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*ProtocolsResponse, error)
+	SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*TechnologyResponse, error)
 	Status(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*StatusResponse, error)
 }
 
@@ -322,8 +322,8 @@ func (c *daemonClient) Settings(ctx context.Context, in *SettingsRequest, opts .
 	return out, nil
 }
 
-func (c *daemonClient) SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*ProtocolsResponse, error) {
+	out := new(ProtocolsResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SettingsProtocols", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -331,8 +331,8 @@ func (c *daemonClient) SettingsProtocols(ctx context.Context, in *SettingsReques
 	return out, nil
 }
 
-func (c *daemonClient) SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*TechnologyResponse, error) {
+	out := new(TechnologyResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SettingsTechnologies", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -382,8 +382,8 @@ type DaemonServer interface {
 	SetTechnology(context.Context, *SetTechnologyRequest) (*Payload, error)
 	SetWhitelist(context.Context, *SetWhitelistRequest) (*emptypb.Empty, error)
 	Settings(context.Context, *SettingsRequest) (*SettingsResponse, error)
-	SettingsProtocols(context.Context, *SettingsRequest) (*Payload, error)
-	SettingsTechnologies(context.Context, *SettingsRequest) (*Payload, error)
+	SettingsProtocols(context.Context, *SettingsRequest) (*ProtocolsResponse, error)
+	SettingsTechnologies(context.Context, *SettingsRequest) (*TechnologyResponse, error)
 	Status(context.Context, *emptypb.Empty) (*StatusResponse, error)
 	mustEmbedUnimplementedDaemonServer()
 }
@@ -479,10 +479,10 @@ func (UnimplementedDaemonServer) SetWhitelist(context.Context, *SetWhitelistRequ
 func (UnimplementedDaemonServer) Settings(context.Context, *SettingsRequest) (*SettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Settings not implemented")
 }
-func (UnimplementedDaemonServer) SettingsProtocols(context.Context, *SettingsRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) SettingsProtocols(context.Context, *SettingsRequest) (*ProtocolsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SettingsProtocols not implemented")
 }
-func (UnimplementedDaemonServer) SettingsTechnologies(context.Context, *SettingsRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) SettingsTechnologies(context.Context, *SettingsRequest) (*TechnologyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SettingsTechnologies not implemented")
 }
 func (UnimplementedDaemonServer) Status(context.Context, *emptypb.Empty) (*StatusResponse, error) {

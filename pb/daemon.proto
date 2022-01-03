@@ -7,6 +7,7 @@ option go_package = "github.com/adamdb5/opennord/pb";
 
 package pb;
 
+// * = Not supported by Daemon
 service Daemon {
   rpc AccountInfo (AccountRequest) returns (AccountResponse) {}                    // Implemented
   rpc Cities (CitiesRequest) returns (CitiesResponse) {}                           // Implemented
@@ -23,7 +24,7 @@ service Daemon {
   rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Implemented
   rpc Ping (google.protobuf.Empty) returns (google.protobuf.Empty) {}              // Implemented
   rpc RateConnection (RateConnectionRequest) returns (Payload) {}                  // Implemented
-  rpc Register (RegisterRequest) returns (Payload) {}                              // Implemented (not supported)
+  rpc Register (RegisterRequest) returns (Payload) {}                              // Implemented*
   rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Not Implemented
   rpc SetCyberSec (SetCyberSecRequest) returns (google.protobuf.Empty) {}          // Implemented
   rpc SetDefaults (google.protobuf.Empty) returns (google.protobuf.Empty) {}       // Implemented
@@ -31,15 +32,25 @@ service Daemon {
   rpc SetFirewall (SetGenericRequest) returns (google.protobuf.Empty) {}           // Implemented
   rpc SetIpv6 (SetGenericRequest) returns (Payload) {}                             // Implemented
   rpc SetKillSwitch (SetKillSwitchRequest) returns (google.protobuf.Empty) {}      // Implemented
-  rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented (not supported)
+  rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented*
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Implemented
   rpc SetWhitelist (SetWhitelistRequest) returns (google.protobuf.Empty) {}        // Implemented
-  rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Implemented (not supported)
-  rpc SettingsProtocols (SettingsRequest) returns (Payload) {}                     // Not Implemented
-  rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}                  // Not Implemented
+  rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Implemented*
+  rpc SettingsProtocols (SettingsRequest) returns (ProtocolsResponse) {}           // Implemented
+  rpc SettingsTechnologies (SettingsRequest) returns (TechnologyResponse) {}       // Implemented
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
+}
+
+message ProtocolsResponse {
+  int32 type = 1;
+  repeated string protocols = 2;
+}
+
+message TechnologyResponse {
+  int32 type = 1;
+  repeated string technologies = 2;
 }
 
 message AccountResponse {

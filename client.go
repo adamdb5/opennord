@@ -251,3 +251,21 @@ func (c Client) Settings() error {
 	_, err := c.daemonClient.Settings(getContext(), &pb.SettingsRequest{})
 	return err
 }
+
+// SettingsProtocols calls the SettingsProtocols RPC.
+func (c Client) SettingsProtocols() (*pb.ProtocolsResponse, error) {
+	r, err := c.daemonClient.SettingsProtocols(getContext(), &pb.SettingsRequest{})
+	if err != nil {
+		return &pb.ProtocolsResponse{}, err
+	}
+	return r, err
+}
+
+// SettingsTechnologies calls the SettingsTechnologies RPC.
+func (c Client) SettingsTechnologies() (*pb.TechnologyResponse, error) {
+	r, err := c.daemonClient.SettingsTechnologies(getContext(), &pb.SettingsRequest{})
+	if err != nil {
+		return &pb.TechnologyResponse{}, err
+	}
+	return r, err
+}
