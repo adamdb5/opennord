@@ -11,8 +11,8 @@ type Protocol int32
 type Technology int32
 
 const (
-	PATH            = "/run/nordvpn/nordvpnd.sock"
-	ADDRESS         = "unix://" + PATH
+	SOCKET_PATH     = "/run/nordvpn/nordvpnd.sock"
+	SOCKET_ADDRESS  = "unix://" + SOCKET_PATH
 	REQUEST_TIMEOUT = 5 * time.Second
 )
 
