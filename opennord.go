@@ -11,12 +11,12 @@ import (
 
 // getConnection creates a new gRPC connection.
 func getConnection() (*grpc.ClientConn, error) {
-	if _, err := os.Stat(SOCKET_PATH); errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Stat(SocketPath); errors.Is(err, os.ErrNotExist) {
 		return &grpc.ClientConn{}, err
 	}
 
-	ctx, _ := context.WithTimeout(context.Background(), REQUEST_TIMEOUT)
-	return grpc.DialContext(ctx, SOCKET_ADDRESS, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	ctx, _ := context.WithTimeout(context.Background(), RequestTimeout)
+	return grpc.DialContext(ctx, SocketAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 }
 
 // getDaemonClient creates a new protobuffer client.

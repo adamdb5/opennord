@@ -11,19 +11,14 @@ type Protocol int32
 type Technology int32
 
 const (
-	SOCKET_PATH     = "/run/nordvpn/nordvpnd.sock"
-	SOCKET_ADDRESS  = "unix://" + SOCKET_PATH
-	REQUEST_TIMEOUT = 5 * time.Second
+	SocketPath     = "/run/nordvpn/nordvpnd.sock"
+	SocketAddress  = "unix://" + SocketPath
+	RequestTimeout = 5 * time.Second
 )
 
 const (
-	INACTIVE = AccountType(pb.AccountTypeEnum_INACTIVE)
-	ACTIVE   = AccountType(pb.AccountTypeEnum_ACTIVE)
-)
-
-const (
-	FALSE = Boolean(pb.BooleanEnum_FALSE)
-	TRUE  = Boolean(pb.BooleanEnum_TRUE)
+	Inactive = AccountType(pb.AccountTypeEnum_INACTIVE)
+	Active   = AccountType(pb.AccountTypeEnum_ACTIVE)
 )
 
 const (
@@ -32,6 +27,6 @@ const (
 )
 
 const (
-	OPENVPN  = Technology(pb.TechnologyEnum_OPENVPN)
-	NORDLYNX = Technology(pb.TechnologyEnum_NORDLYNX)
+	OpenVPN  = Technology(pb.TechnologyEnum_OPENVPN)
+	NordLynx = Technology(pb.TechnologyEnum_NORDLYNX)
 )

@@ -62,7 +62,7 @@ message AccountResponse {
 
 message CitiesRequest {
   ProtocolEnum protocol = 1;
-  BooleanEnum obfuscate = 2;
+  bool obfuscate = 2;
   string country = 3;
 }
 
@@ -73,7 +73,7 @@ message CitiesResponse {
 
 message CountriesRequest {
   ProtocolEnum protocol = 1;
-  BooleanEnum obfuscate = 2;
+  bool obfuscate = 2;
 }
 
 message CountriesResponse {
@@ -91,11 +91,11 @@ message FrontendCountriesResponse {
 }
 
 message IsLoggedInResponse {
-  BooleanEnum isLoggedIn = 1;
+  bool isLoggedIn = 1;
 }
 
 message Bool {
-  BooleanEnum value = 1;
+  bool value = 1;
 }
 
 message Payload {
@@ -142,7 +142,7 @@ message DisconnectRequest {
 
 message GroupsRequest {
   ProtocolEnum protocol = 1;
-  BooleanEnum obfuscate = 2;
+  bool obfuscate = 2;
 }
 
 message GroupsResponse {
@@ -267,11 +267,6 @@ enum AccountTypeEnum {
   INACTIVE = 1;
 }
 
-enum BooleanEnum {
-  FALSE = 0;
-  TRUE = 1;
-}
-
 // Undefined
 message SettingsRequest { }
 message AccountRequest { }
@@ -279,9 +274,9 @@ message AccountRequest { }
 message SetAutoConnectRequest {
   string serverTag = 1;
   ProtocolEnum protocol = 2;
-  BooleanEnum cyberSec = 3;
-  BooleanEnum obfuscate = 4;
-  BooleanEnum autoConnect = 5;
-  BooleanEnum dns = 6;
-  BooleanEnum whitelist = 7;
+  bool cyberSec = 3;
+  bool obfuscate = 4;
+  bool autoConnect = 5;
+  bool dns = 6;
+  bool whitelist = 7;
 }

@@ -30,7 +30,7 @@ type Config struct {
 // getContext returns a new context object with a timeout. The value of the timeout is
 // defined in the common constants.
 func getContext() context.Context {
-	ctx, _ := context.WithTimeout(context.Background(), REQUEST_TIMEOUT)
+	ctx, _ := context.WithTimeout(context.Background(), RequestTimeout)
 	return ctx
 }
 
