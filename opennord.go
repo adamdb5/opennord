@@ -16,7 +16,11 @@ func getConnection() (*grpc.ClientConn, error) {
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), RequestTimeout)
-	return grpc.DialContext(ctx, SocketAddress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	return grpc.DialContext(
+		ctx,
+		SocketAddress,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithBlock())
 }
 
 // getDaemonClient creates a new protobuffer client.

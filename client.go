@@ -11,24 +11,9 @@ import (
 type Client struct {
 	grpcConnection *grpc.ClientConn
 	daemonClient   pb.DaemonClient
-	config         Config
 }
 
-type Config struct {
-	technology  Protocol
-	protocol    Protocol
-	firewall    bool
-	killSwitch  bool
-	cyberSec    bool
-	obfuscate   bool
-	notify      bool
-	autoConnect *pb.SetAutoConnectRequest
-	ipv6        bool
-	dns         []string
-}
-
-// getContext returns a new context object with a timeout. The value of the timeout is
-// defined in the common constants.
+// getContext returns a new context object with a timeout. The value of the timeout is defined in the constants.
 func getContext() context.Context {
 	ctx, _ := context.WithTimeout(context.Background(), RequestTimeout)
 	return ctx
