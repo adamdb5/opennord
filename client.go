@@ -1,8 +1,6 @@
 package opennord
 
 import (
-	"github.com/adamdb5/opennord/constants"
-	"github.com/adamdb5/opennord/messages"
 	"github.com/adamdb5/opennord/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -17,8 +15,8 @@ type Client struct {
 }
 
 type Config struct {
-	technology  constants.Protocol
-	protocol    constants.Protocol
+	technology  Protocol
+	protocol    Protocol
 	firewall    bool
 	killSwitch  bool
 	cyberSec    bool
@@ -32,46 +30,30 @@ type Config struct {
 // getContext returns a new context object with a timeout. The value of the timeout is
 // defined in the common constants.
 func getContext() context.Context {
-	ctx, _ := context.WithTimeout(context.Background(), constants.RequestTimeout)
+	ctx, _ := context.WithTimeout(context.Background(), REQUEST_TIMEOUT)
 	return ctx
 }
 
 // Status calls the Status RPC and returns a StatusResponse.
-func (c Client) Status() (messages.StatusResponse, error) {
-	r, err := c.daemonClient.Status(getContext(), &emptypb.Empty{})
-	if err != nil {
-		return messages.StatusResponse{}, err
-	}
-	return messages.FormatStatusResponse(r), nil
+func (c Client) Status() (*pb.StatusResponse, error) {
+	return c.daemonClient.Status(getContext(), &emptypb.Empty{})
 }
 
 // AccountInfo calls the AccountInfo RPC and returns an AccountResponse.
-func (c Client) AccountInfo() (messages.AccountResponse, error) {
-	r, err := c.daemonClient.AccountInfo(getContext(), messages.AccountRequest{}.ToProtoBuffer())
-	if err != nil {
-		return messages.AccountResponse{}, err
-	}
-	return messages.FormatAccountResponse(r), nil
+func (c Client) AccountInfo() (*pb.AccountResponse, error) {
+	return c.daemonClient.AccountInfo(getContext(), &pb.AccountRequest{})
 }
 
 // Cities calls the Cities RPC and returns a CitiesResponse.
-func (c Client) Cities(req messages.CitiesRequest) (messages.CitiesResponse, error) {
-	r, err := c.daemonClient.Cities(getContext(), req.ToProtoBuffer())
-	if err != nil {
-		return messages.CitiesResponse{}, err
-	}
-	return messages.FormatCitiesResponse(r), nil
+func (c Client) Cities(req *pb.CitiesRequest) (*pb.CitiesResponse, error) {
+	return c.daemonClient.Cities(getContext(), req)
 }
 
 // Connect does something
 
 // Countries calls the Countries RPC and returns a CountriesResponse.
-func (c Client) Countries(req messages.CountriesRequest) (messages.CountriesResponse, error) {
-	r, err := c.daemonClient.Countries(getContext(), req.ToProtoBuffer())
-	if err != nil {
-		return messages.CountriesResponse{}, err
-	}
-	return messages.FormatCountriesResponse(r), nil
+func (c Client) Countries(req *pb.CountriesRequest) (*pb.CountriesResponse, error) {
+	return c.daemonClient.Countries(getContext(), req)
 }
 
 // Disconnect calls the Disconnect RPC and terminates the current VPN session.
@@ -81,45 +63,29 @@ func (c Client) Disconnect() error {
 }
 
 // FrontendCountries calls the FrontendCountries RPC and returns a CountriesResponse.
-func (c Client) FrontendCountries(req messages.CountriesRequest) (messages.FrontendCountriesResponse, error) {
-	r, err := c.daemonClient.FrontendCountries(getContext(), req.ToProtoBuffer())
-	if err != nil {
-		return messages.FrontendCountriesResponse{}, err
-	}
-	return messages.FormatFrontendCountriesResponse(r), nil
+func (c Client) FrontendCountries(req *pb.CountriesRequest) (*pb.FrontendCountriesResponse, error) {
+	return c.daemonClient.FrontendCountries(getContext(), req)
 }
 
 // Groups calls the Groups RPC and returns a GroupsResponse.
-func (c Client) Groups(req messages.GroupsRequest) (messages.GroupsResponse, error) {
-	r, err := c.daemonClient.Groups(getContext(), req.ToProtoBuffer())
-	if err != nil {
-		return messages.GroupsResponse{}, err
-	}
-	return messages.FormatGroupsResponse(r), nil
+func (c Client) Groups(req *pb.GroupsRequest) (*pb.GroupsResponse, error) {
+	return c.daemonClient.Groups(getContext(), req)
 }
 
 // IsLoggedIn calls the IsLoggedIn RPC and returns a IsLoggedInResponse.
-func (c Client) IsLoggedIn() (messages.IsLoggedInResponse, error) {
-	r, err := c.daemonClient.IsLoggedIn(getContext(), &emptypb.Empty{})
-	if err != nil {
-		return messages.IsLoggedInResponse{}, err
-	}
-	return messages.FormatIsLoggedInResponse(r), nil
+func (c Client) IsLoggedIn() (*pb.IsLoggedInResponse, error) {
+	return c.daemonClient.IsLoggedIn(getContext(), &emptypb.Empty{})
 }
 
 // Login calls the Login RPC.
-func (c Client) Login(req messages.LoginRequest) error {
-	_, err := c.daemonClient.Login(getContext(), req.ToProtoBuffer())
+func (c Client) Login(req *pb.LoginRequest) error {
+	_, err := c.daemonClient.Login(getContext(), req)
 	return err
 }
 
 // LoginOAuth2 calls the LoginOAuth2 RPC.
-func (c Client) LoginOAuth2() (messages.LoginOAuth2Response, error) {
-	r, err := c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
-	if err != nil {
-		return messages.LoginOAuth2Response{}, err
-	}
-	return messages.FormatLoginOAuth2LoginResponse(r), err
+func (c Client) LoginOAuth2() (*pb.LoginOAuth2Response, error) {
+	return c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
 }
 
 // Logout calls the Logout RPC.
@@ -129,12 +95,8 @@ func (c Client) Logout() error {
 }
 
 // Plans calls the Plans RPC.
-func (c Client) Plans() (messages.PlansResponse, error) {
-	r, err := c.daemonClient.Plans(getContext(), &emptypb.Empty{})
-	if err != nil {
-		return messages.PlansResponse{}, err
-	}
-	return messages.FormatPlansResponse(r), err
+func (c Client) Plans() (*pb.PlansResponse, error) {
+	return c.daemonClient.Plans(getContext(), &emptypb.Empty{})
 }
 
 // Ping checks that the daemon is alive via the Ping RPC.
@@ -145,32 +107,28 @@ func (c Client) Ping() error {
 }
 
 // RateConnection calls the RateConnection RPC.
-func (c Client) RateConnection(req messages.RateConnectionRequest) error {
-	_, err := c.daemonClient.RateConnection(getContext(), req.ToProtoBuffer())
+func (c Client) RateConnection(req *pb.RateConnectionRequest) error {
+	_, err := c.daemonClient.RateConnection(getContext(), req)
 	return err
 }
 
 // SetAutoConnect calls the SetAutoConnect RPC.
 // TODO: fix
-func (c Client) SetAutoConnect(req messages.SetAutoConnectRequest) (*pb.Payload, error) {
-	r, err := c.daemonClient.SetAutoConnect(getContext(), req.ToProtoBuffer())
-	if err != nil {
-		return &pb.Payload{}, err
-	}
-	return r, err
+func (c Client) SetAutoConnect(req *pb.SetAutoConnectRequest) (*pb.Payload, error) {
+	return c.daemonClient.SetAutoConnect(getContext(), req)
 }
 
 // SetWhitelist calls the SetWhitelist RPC.
-func (c Client) SetWhitelist(req messages.SetWhitelistRequest) error {
-	_, err := c.daemonClient.SetWhitelist(getContext(), req.ToProtoBuffer())
+func (c Client) SetWhitelist(req *pb.SetWhitelistRequest) error {
+	_, err := c.daemonClient.SetWhitelist(getContext(), req)
 	return err
 }
 
 // SetCyberSec calls the SetCyberSec RPC.
 func (c Client) SetCyberSec(enabled bool) error {
 	_, err := c.daemonClient.SetCyberSec(getContext(), &pb.SetCyberSecRequest{
-		CyberSec: enabled},
-	)
+		CyberSec: enabled,
+	})
 	return err
 }
 
@@ -214,7 +172,7 @@ func (c Client) SetObfuscate(enabled bool) error {
 }
 
 // SetProtocol calls the SetProtocol RPC.
-func (c Client) SetProtocol(protocol constants.Protocol) error {
+func (c Client) SetProtocol(protocol Protocol) error {
 	_, err := c.daemonClient.SetProtocol(getContext(), &pb.SetProtocolRequest{
 		Protocol: pb.ProtocolEnum(protocol),
 	})
@@ -222,7 +180,7 @@ func (c Client) SetProtocol(protocol constants.Protocol) error {
 }
 
 // SetTechnology calls the SetTechnology RPC.
-func (c Client) SetTechnology(technology constants.Technology) error {
+func (c Client) SetTechnology(technology Technology) error {
 	_, err := c.daemonClient.SetTechnology(getContext(), &pb.SetTechnologyRequest{
 		Technology: pb.TechnologyEnum(technology),
 	})

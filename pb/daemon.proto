@@ -99,7 +99,7 @@ message Bool {
 }
 
 message Payload {
-  optional int32 type = 1;
+  int32 type = 1;
   google.protobuf.Any data = 2;
 }
 
@@ -218,13 +218,12 @@ message SetTechnologyRequest {
 }
 
 message SetWhitelistRequest {
-  optional int32 type = 1;
   Whitelist whitelist = 2;
 }
 
 message SettingsResponse {
-  string type = 1;
-  google.protobuf.Any data = 2;
+  int32 type = 1;
+  string data = 2;
 }
 
 message Settings {
