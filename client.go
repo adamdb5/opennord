@@ -245,3 +245,9 @@ func (c Client) SetDns(servers []string, cyberSec bool) error {
 	})
 	return err
 }
+
+// Settings calls the Settings RPC. (but the settings RPC doesn't do anything anyway)
+func (c Client) Settings() error {
+	_, err := c.daemonClient.Settings(getContext(), &pb.SettingsRequest{})
+	return err
+}

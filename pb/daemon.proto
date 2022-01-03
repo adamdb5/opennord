@@ -36,7 +36,7 @@ service Daemon {
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Implemented
   rpc SetWhitelist (SetWhitelistRequest) returns (google.protobuf.Empty) {}        // Implemented
-  rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Not Implemented
+  rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Implemented (not supported)
   rpc SettingsProtocols (SettingsRequest) returns (Payload) {}                     // Not Implemented
   rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}                  // Not Implemented
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
