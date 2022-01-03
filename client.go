@@ -212,3 +212,11 @@ func (c Client) SetObfuscate(enabled bool) error {
 	})
 	return err
 }
+
+// SetProtocol calls the SetProtocol RPC.
+func (c Client) SetProtocol(enum constants.Protocol) error {
+	_, err := c.daemonClient.SetProtocol(getContext(), &pb.SetProtocolRequest{
+		Protocol: pb.ProtocolEnum(enum),
+	})
+	return err
+}
