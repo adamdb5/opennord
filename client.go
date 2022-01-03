@@ -195,3 +195,12 @@ func (c Client) SetFirewall(enabled bool) error {
 	})
 	return err
 }
+
+// SetNotify calls the SetNotify RPC.
+func (c Client) SetNotify(enabled bool) error {
+	_, err := c.daemonClient.SetNotify(getContext(), &pb.SetNotifyRequest{
+		Uid:    1000, // Seems to be a magic number
+		Notify: enabled,
+	})
+	return err
+}

@@ -30,7 +30,7 @@ service Daemon {
   rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Not Implemented
   rpc SetFirewall (SetGenericRequest) returns (google.protobuf.Empty) {}           // Implemented
   rpc SetKillSwitch (SetKillSwitchRequest) returns (google.protobuf.Empty) {}      // Implemented
-  rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Not Implemented
+  rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented (not supported)
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Not Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Not Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Not Implemented
@@ -88,7 +88,7 @@ message Bool {
 }
 
 message Payload {
-  string type = 1;
+  optional int32 type = 1;
   google.protobuf.Any data = 2;
 }
 
@@ -194,8 +194,8 @@ message SetKillSwitchRequest {
 }
 
 message SetNotifyRequest {
-  bool uid = 1;
-  bool notify = 2;
+  uint32 uid = 2;
+  bool notify = 3;
 }
 
 message SetProtocolRequest {
