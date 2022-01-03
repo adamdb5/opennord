@@ -214,9 +214,17 @@ func (c Client) SetObfuscate(enabled bool) error {
 }
 
 // SetProtocol calls the SetProtocol RPC.
-func (c Client) SetProtocol(enum constants.Protocol) error {
+func (c Client) SetProtocol(protocol constants.Protocol) error {
 	_, err := c.daemonClient.SetProtocol(getContext(), &pb.SetProtocolRequest{
-		Protocol: pb.ProtocolEnum(enum),
+		Protocol: pb.ProtocolEnum(protocol),
+	})
+	return err
+}
+
+// SetTechnology calls the SetTechnology RPC.
+func (c Client) SetTechnology(technology constants.Technology) error {
+	_, err := c.daemonClient.SetTechnology(getContext(), &pb.SetTechnologyRequest{
+		Technology: pb.TechnologyEnum(technology),
 	})
 	return err
 }

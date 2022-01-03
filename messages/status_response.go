@@ -29,8 +29,6 @@ func FormatStatusResponse(response *pb.StatusResponse) StatusResponse {
 		technology = constants.OpenVPN
 	case pb.TechnologyEnum_NORDLYNX:
 		technology = constants.NordLynx
-	case pb.TechnologyEnum_SKYLARK:
-		technology = constants.Skylark
 	default:
 		technology = constants.Unknown
 	}
