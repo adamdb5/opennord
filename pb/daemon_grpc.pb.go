@@ -37,10 +37,10 @@ type DaemonClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetAutoConnect(ctx context.Context, in *SetAutoConnectRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetCyberSec(ctx context.Context, in *SetCyberSecRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	SetDefaults(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
+	SetDefaults(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SetDns(ctx context.Context, in *SetDNSRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
-	SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*Payload, error)
+	SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SetNotify(ctx context.Context, in *SetNotifyRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetObfuscate(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetProtocol(ctx context.Context, in *SetProtocolRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -223,8 +223,8 @@ func (c *daemonClient) SetCyberSec(ctx context.Context, in *SetCyberSecRequest, 
 	return out, nil
 }
 
-func (c *daemonClient) SetDefaults(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) SetDefaults(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SetDefaults", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -250,8 +250,8 @@ func (c *daemonClient) SetFirewall(ctx context.Context, in *SetGenericRequest, o
 	return out, nil
 }
 
-func (c *daemonClient) SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
+func (c *daemonClient) SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SetKillSwitch", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -371,10 +371,10 @@ type DaemonServer interface {
 	Register(context.Context, *RegisterRequest) (*Payload, error)
 	SetAutoConnect(context.Context, *SetAutoConnectRequest) (*Payload, error)
 	SetCyberSec(context.Context, *SetCyberSecRequest) (*emptypb.Empty, error)
-	SetDefaults(context.Context, *emptypb.Empty) (*Payload, error)
+	SetDefaults(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	SetDns(context.Context, *SetDNSRequest) (*Payload, error)
 	SetFirewall(context.Context, *SetGenericRequest) (*Payload, error)
-	SetKillSwitch(context.Context, *SetKillSwitchRequest) (*Payload, error)
+	SetKillSwitch(context.Context, *SetKillSwitchRequest) (*emptypb.Empty, error)
 	SetNotify(context.Context, *SetNotifyRequest) (*Payload, error)
 	SetObfuscate(context.Context, *SetGenericRequest) (*Payload, error)
 	SetProtocol(context.Context, *SetProtocolRequest) (*Payload, error)
@@ -446,7 +446,7 @@ func (UnimplementedDaemonServer) SetAutoConnect(context.Context, *SetAutoConnect
 func (UnimplementedDaemonServer) SetCyberSec(context.Context, *SetCyberSecRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCyberSec not implemented")
 }
-func (UnimplementedDaemonServer) SetDefaults(context.Context, *emptypb.Empty) (*Payload, error) {
+func (UnimplementedDaemonServer) SetDefaults(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetDefaults not implemented")
 }
 func (UnimplementedDaemonServer) SetDns(context.Context, *SetDNSRequest) (*Payload, error) {
@@ -455,7 +455,7 @@ func (UnimplementedDaemonServer) SetDns(context.Context, *SetDNSRequest) (*Paylo
 func (UnimplementedDaemonServer) SetFirewall(context.Context, *SetGenericRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetFirewall not implemented")
 }
-func (UnimplementedDaemonServer) SetKillSwitch(context.Context, *SetKillSwitchRequest) (*Payload, error) {
+func (UnimplementedDaemonServer) SetKillSwitch(context.Context, *SetKillSwitchRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetKillSwitch not implemented")
 }
 func (UnimplementedDaemonServer) SetNotify(context.Context, *SetNotifyRequest) (*Payload, error) {

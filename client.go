@@ -13,6 +13,20 @@ import (
 type Client struct {
 	grpcConnection *grpc.ClientConn
 	daemonClient   pb.DaemonClient
+	config         Config
+}
+
+type Config struct {
+	technology  constants.Protocol
+	protocol    constants.Protocol
+	firewall    bool
+	killSwitch  bool
+	cyberSec    bool
+	obfuscate   bool
+	notify      bool
+	autoConnect *pb.SetAutoConnectRequest
+	ipv6        bool
+	dns         []string
 }
 
 // getContext returns a new context object with a timeout. The value of the timeout is
@@ -163,5 +177,12 @@ func (c Client) SetCyberSec(enabled bool) error {
 // SetDefaults calls the SetDefaults RPC.
 func (c Client) SetDefaults() error {
 	_, err := c.daemonClient.SetDefaults(getContext(), &emptypb.Empty{})
+	return err
+}
+
+func (c Client) SetKillSwitch(enabled bool) error {
+	_, err := c.daemonClient.SetKillSwitch(getContext(), &pb.SetKillSwitchRequest{
+		Enabled: enabled,
+	})
 	return err
 }
