@@ -28,7 +28,7 @@ service Daemon {
   rpc SetCyberSec (SetCyberSecRequest) returns (google.protobuf.Empty) {}          // Implemented
   rpc SetDefaults (google.protobuf.Empty) returns (google.protobuf.Empty) {}       // Implemented
   rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Not Implemented
-  rpc SetFirewall (SetGenericRequest) returns (Payload) {}                         // Not Implemented
+  rpc SetFirewall (SetGenericRequest) returns (google.protobuf.Empty) {}           // Implemented
   rpc SetKillSwitch (SetKillSwitchRequest) returns (google.protobuf.Empty) {}      // Implemented
   rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Not Implemented
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Not Implemented

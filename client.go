@@ -180,8 +180,17 @@ func (c Client) SetDefaults() error {
 	return err
 }
 
+// SetKillSwitch calls the SetKilLSwitch RPC.
 func (c Client) SetKillSwitch(enabled bool) error {
 	_, err := c.daemonClient.SetKillSwitch(getContext(), &pb.SetKillSwitchRequest{
+		Enabled: enabled,
+	})
+	return err
+}
+
+// SetFirewall calls the SetFirewall RPC.
+func (c Client) SetFirewall(enabled bool) error {
+	_, err := c.daemonClient.SetFirewall(getContext(), &pb.SetGenericRequest{
 		Enabled: enabled,
 	})
 	return err
