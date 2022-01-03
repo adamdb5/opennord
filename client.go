@@ -236,3 +236,12 @@ func (c Client) SetIpv6(enabled bool) error {
 	})
 	return err
 }
+
+// SetDns calls the SetDns RPC.
+func (c Client) SetDns(servers []string, cyberSec bool) error {
+	_, err := c.daemonClient.SetDns(getContext(), &pb.SetDNSRequest{
+		Dns:      servers,
+		CyberSec: cyberSec,
+	})
+	return err
+}
