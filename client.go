@@ -228,3 +228,11 @@ func (c Client) SetTechnology(technology constants.Technology) error {
 	})
 	return err
 }
+
+// SetIpv6 calls the SetIPv6 RPC.
+func (c Client) SetIpv6(enabled bool) error {
+	_, err := c.daemonClient.SetIpv6(getContext(), &pb.SetGenericRequest{
+		Enabled: enabled,
+	})
+	return err
+}

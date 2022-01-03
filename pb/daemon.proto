@@ -29,6 +29,7 @@ service Daemon {
   rpc SetDefaults (google.protobuf.Empty) returns (google.protobuf.Empty) {}       // Implemented
   rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Not Implemented
   rpc SetFirewall (SetGenericRequest) returns (google.protobuf.Empty) {}           // Implemented
+  rpc SetIpv6 (SetGenericRequest) returns (Payload) {}                             // Implemented
   rpc SetKillSwitch (SetKillSwitchRequest) returns (google.protobuf.Empty) {}      // Implemented
   rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented (not supported)
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Implemented
@@ -39,7 +40,6 @@ service Daemon {
   rpc SettingsProtocols (SettingsRequest) returns (Payload) {}                     // Not Implemented
   rpc SettingsTechnologies (SettingsRequest) returns (Payload) {}                  // Not Implemented
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
-  rpc SetIpv6 (SetGenericRequest) returns (Payload) {}                             // Not Implemented
 }
 
 message AccountResponse {
