@@ -39,7 +39,7 @@ type DaemonClient interface {
 	SetCyberSec(ctx context.Context, in *SetCyberSecRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetDefaults(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	SetDns(ctx context.Context, in *SetDNSRequest, opts ...grpc.CallOption) (*Payload, error)
-	SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetIpv6(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SetNotify(ctx context.Context, in *SetNotifyRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -264,8 +264,8 @@ func (c *daemonClient) SetDns(ctx context.Context, in *SetDNSRequest, opts ...gr
 	return out, nil
 }
 
-func (c *daemonClient) SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *daemonClient) SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error) {
+	out := new(Payload)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SetFirewall", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -396,7 +396,7 @@ type DaemonServer interface {
 	SetCyberSec(context.Context, *SetCyberSecRequest) (*Payload, error)
 	SetDefaults(context.Context, *emptypb.Empty) (*Payload, error)
 	SetDns(context.Context, *SetDNSRequest) (*Payload, error)
-	SetFirewall(context.Context, *SetGenericRequest) (*emptypb.Empty, error)
+	SetFirewall(context.Context, *SetGenericRequest) (*Payload, error)
 	SetIpv6(context.Context, *SetGenericRequest) (*Payload, error)
 	SetKillSwitch(context.Context, *SetKillSwitchRequest) (*emptypb.Empty, error)
 	SetNotify(context.Context, *SetNotifyRequest) (*Payload, error)
@@ -475,7 +475,7 @@ func (UnimplementedDaemonServer) SetDefaults(context.Context, *emptypb.Empty) (*
 func (UnimplementedDaemonServer) SetDns(context.Context, *SetDNSRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetDns not implemented")
 }
-func (UnimplementedDaemonServer) SetFirewall(context.Context, *SetGenericRequest) (*emptypb.Empty, error) {
+func (UnimplementedDaemonServer) SetFirewall(context.Context, *SetGenericRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetFirewall not implemented")
 }
 func (UnimplementedDaemonServer) SetIpv6(context.Context, *SetGenericRequest) (*Payload, error) {

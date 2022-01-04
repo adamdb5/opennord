@@ -223,9 +223,18 @@ func (c Client) SetDns(servers []string, cyberSec bool) error {
 
 // SetFirewall calls the SetFirewall RPC.
 func (c Client) SetFirewall(enabled bool) error {
-	_, err := c.daemonClient.SetFirewall(getContext(), &pb.SetGenericRequest{
+	r, err := c.daemonClient.SetFirewall(getContext(), &pb.SetGenericRequest{
 		Enabled: enabled,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return errors.New("firewall already enabled / disabled")
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
