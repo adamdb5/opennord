@@ -363,7 +363,10 @@ func (c Client) Settings() (*pb.SettingsResponse, error) {
 func (c Client) SettingsProtocols() (*pb.ProtocolsResponse, error) {
 	r, err := c.daemonClient.SettingsProtocols(getContext(), &emptypb.Empty{})
 	if err != nil {
-		return &pb.ProtocolsResponse{}, err
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return nil, errors.New("unknown error")
 	}
 	return r, err
 }
@@ -372,7 +375,10 @@ func (c Client) SettingsProtocols() (*pb.ProtocolsResponse, error) {
 func (c Client) SettingsTechnologies() (*pb.TechnologyResponse, error) {
 	r, err := c.daemonClient.SettingsTechnologies(getContext(), &emptypb.Empty{})
 	if err != nil {
-		return &pb.TechnologyResponse{}, err
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return nil, errors.New("unknown error")
 	}
 	return r, err
 }
