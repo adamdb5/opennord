@@ -303,9 +303,15 @@ func (c Client) SetObfuscate(enabled bool) error {
 
 // SetProtocol calls the SetProtocol RPC.
 func (c Client) SetProtocol(protocol Protocol) error {
-	_, err := c.daemonClient.SetProtocol(getContext(), &pb.SetProtocolRequest{
+	r, err := c.daemonClient.SetProtocol(getContext(), &pb.SetProtocolRequest{
 		Protocol: pb.ProtocolEnum(protocol),
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
