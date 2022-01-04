@@ -41,7 +41,7 @@ type DaemonClient interface {
 	SetDns(ctx context.Context, in *SetDNSRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetFirewall(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetIpv6(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
-	SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetNotify(ctx context.Context, in *SetNotifyRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetObfuscate(ctx context.Context, in *SetGenericRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetProtocol(ctx context.Context, in *SetProtocolRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -282,8 +282,8 @@ func (c *daemonClient) SetIpv6(ctx context.Context, in *SetGenericRequest, opts 
 	return out, nil
 }
 
-func (c *daemonClient) SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *daemonClient) SetKillSwitch(ctx context.Context, in *SetKillSwitchRequest, opts ...grpc.CallOption) (*Payload, error) {
+	out := new(Payload)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SetKillSwitch", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -398,7 +398,7 @@ type DaemonServer interface {
 	SetDns(context.Context, *SetDNSRequest) (*Payload, error)
 	SetFirewall(context.Context, *SetGenericRequest) (*Payload, error)
 	SetIpv6(context.Context, *SetGenericRequest) (*Payload, error)
-	SetKillSwitch(context.Context, *SetKillSwitchRequest) (*emptypb.Empty, error)
+	SetKillSwitch(context.Context, *SetKillSwitchRequest) (*Payload, error)
 	SetNotify(context.Context, *SetNotifyRequest) (*Payload, error)
 	SetObfuscate(context.Context, *SetGenericRequest) (*Payload, error)
 	SetProtocol(context.Context, *SetProtocolRequest) (*Payload, error)
@@ -481,7 +481,7 @@ func (UnimplementedDaemonServer) SetFirewall(context.Context, *SetGenericRequest
 func (UnimplementedDaemonServer) SetIpv6(context.Context, *SetGenericRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetIpv6 not implemented")
 }
-func (UnimplementedDaemonServer) SetKillSwitch(context.Context, *SetKillSwitchRequest) (*emptypb.Empty, error) {
+func (UnimplementedDaemonServer) SetKillSwitch(context.Context, *SetKillSwitchRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetKillSwitch not implemented")
 }
 func (UnimplementedDaemonServer) SetNotify(context.Context, *SetNotifyRequest) (*Payload, error) {

@@ -30,7 +30,7 @@ service Daemon {
   rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Implemented
   rpc SetFirewall (SetGenericRequest) returns (Payload) {}                         // Implemented
   rpc SetIpv6 (SetGenericRequest) returns (Payload) {}                             // Implemented
-  rpc SetKillSwitch (SetKillSwitchRequest) returns (google.protobuf.Empty) {}      // Implemented
+  rpc SetKillSwitch (SetKillSwitchRequest) returns (Payload) {}                    // Implemented
   rpc SetNotify (SetNotifyRequest) returns (Payload) {}                            // Implemented*
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Implemented

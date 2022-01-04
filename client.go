@@ -257,9 +257,18 @@ func (c Client) SetIpv6(enabled bool) error {
 
 // SetKillSwitch calls the SetKilLSwitch RPC.
 func (c Client) SetKillSwitch(enabled bool) error {
-	_, err := c.daemonClient.SetKillSwitch(getContext(), &pb.SetKillSwitchRequest{
+	r, err := c.daemonClient.SetKillSwitch(getContext(), &pb.SetKillSwitchRequest{
 		Enabled: enabled,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return errors.New("kill switch already enabled / disabled")
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
