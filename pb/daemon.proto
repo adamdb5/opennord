@@ -120,14 +120,14 @@ message Ports {
 
 message ConnectRequest {
   string serverTag = 1;
-  string protocol = 2;
-  bool obfuscate = 3;
-  bool cyberSec = 4;
-  bool killSwitch = 5;
-  bool dns = 6;
-  bool whiteList = 7;
-  bool serverGroup = 8;
-  string nordLynxPrivateKey = 9;
+  ProtocolEnum protocol = 5;
+  bool obfuscate = 6;
+  bool cyberSec = 7;
+//  bool killSwitch = 8; // No effect
+  repeated string dns = 9;
+  Whitelist whiteList = 10;
+//  bool serverGroup = 8; // No effect
+//  string nordLynxPrivateKey = 9; // No effect
 }
 
 message Country {
