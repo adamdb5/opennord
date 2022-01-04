@@ -167,7 +167,17 @@ func (c Client) RateConnection(req *pb.RateConnectionRequest) error {
 
 // SetAutoConnect calls the SetAutoConnect RPC.
 func (c Client) SetAutoConnect(req *pb.SetAutoConnectRequest) (*pb.Payload, error) {
-	return c.daemonClient.SetAutoConnect(getContext(), req)
+	r, err := c.daemonClient.SetAutoConnect(getContext(), req)
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return nil, errors.New("auto-connect already enabled / disabled")
+	}
+	if r.GetType() != StatusOk {
+		return nil, errors.New("unknown error")
+	}
+	return r, err
 }
 
 // SetWhitelist calls the SetWhitelist RPC.
