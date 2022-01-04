@@ -19,7 +19,7 @@ service Daemon {
   rpc Login (LoginRequest) returns (Payload) {}                                    // Implemented
   rpc LoginOAuth2 (google.protobuf.Empty) returns (LoginOAuth2Response) {}         // Implemented
   rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {}             // Not Implemented
-  rpc Logout (google.protobuf.Empty) returns (Payload) {}                          // Implemented
+  rpc Logout (LogoutRequest) returns (Payload) {}                                  // Implemented
   rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Implemented
   rpc Ping (google.protobuf.Empty) returns (Payload) {}                            // Implemented
   rpc RateConnection (RateConnectionRequest) returns (Payload) {}                  // Implemented
@@ -42,25 +42,25 @@ service Daemon {
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
 }
 
-message AccountResponse { /* USED */
+message AccountResponse { 
   uint32 type = 1;
   // string username = 2; (Not used)
   string email = 3;
   string expiresAt = 4;
 }
 
-message CitiesRequest { /* USED */
+message CitiesRequest { 
   ProtocolEnum protocol = 1;
   bool obfuscate = 2;
   string country = 3;
 }
 
-message CitiesResponse { /* USED */
+message CitiesResponse { 
   uint32 type = 1;
   repeated string cities = 2;
 }
 
-message ConnectRequest { /* USED */
+message ConnectRequest { 
   string serverTag = 1;
   ProtocolEnum protocol = 5;
   bool obfuscate = 6;
@@ -72,30 +72,30 @@ message ConnectRequest { /* USED */
   // string nordLynxPrivateKey = 9; (No effect)
 }
 
-message ConnectResponse { /* USED */
+message ConnectResponse { 
   uint32 type = 1;
   repeated string messages = 2;
 }
 
-message CountriesRequest { // USED
+message CountriesRequest { 
   ProtocolEnum protocol = 1;
   bool obfuscate = 2;
 }
 
-message CountriesResponse { // USED
+message CountriesResponse { 
   int32 type = 1;
   repeated string countries = 2;
 }
 
-message DisconnectRequest {// USED
-  int32 id = 2;
+message DisconnectRequest {
+  uint32 id = 2;
 }
 
-message FrontendCountriesResponse { //USED
+message FrontendCountriesResponse {
   repeated FrontendCountry countries = 1;
 }
 
-message FrontendCountry { // USED
+message FrontendCountry { 
   string name = 1;
   string code = 2;
 }
@@ -104,12 +104,13 @@ message GroupsResponse {
   int32 type = 1;
   repeated string names = 2;
 }
+
 message GroupsRequest {
   ProtocolEnum protocol = 1;
   bool obfuscate = 2;
 }
 
-message IsLoggedInResponse { // USED
+message IsLoggedInResponse { 
   bool isLoggedIn = 1;
 }
 
@@ -123,7 +124,7 @@ message LoginRequest {
 }
 
 message LogoutRequest {
-  int32 id = 2;
+  uint32 id = 2;
 }
 
 message Payload {
@@ -148,15 +149,9 @@ message Ports {
   repeated int32 tcp = 2;
 }
 
-message ProtocolsResponse { // USED
+message ProtocolsResponse { 
   uint32 type = 1;
   repeated string protocols = 2;
-}
-
-message ServersListRequest {
-  string protocol = 1;
-  int32 count = 2;
-  string serverTag = 3;
 }
 
 message RegisterRequest {
@@ -239,7 +234,7 @@ message StatusResponse {
   int64 uptime = 10; // nanoseconds
 }
 
-message TechnologyResponse { // USED
+message TechnologyResponse { 
   uint32 type = 1;
   repeated string technologies = 2;
 }

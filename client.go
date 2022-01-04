@@ -121,7 +121,7 @@ func (c Client) LoginOAuth2() (*pb.LoginOAuth2Response, error) {
 
 // Logout calls the Logout RPC.
 func (c Client) Logout() error {
-	_, err := c.daemonClient.Logout(getContext(), &emptypb.Empty{})
+	_, err := c.daemonClient.Logout(getContext(), &pb.LogoutRequest{Id: 0})
 	if err != nil {
 		return errors.New(status.Convert(err).Message())
 	}

@@ -30,7 +30,7 @@ type DaemonClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Payload, error)
 	LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
-	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
+	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*Payload, error)
 	Plans(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PlansResponse, error)
 	Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	RateConnection(ctx context.Context, in *RateConnectionRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -183,7 +183,7 @@ func (c *daemonClient) LoginOAuth2Callback(ctx context.Context, in *emptypb.Empt
 	return out, nil
 }
 
-func (c *daemonClient) Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
+func (c *daemonClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*Payload, error) {
 	out := new(Payload)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Logout", in, out, opts...)
 	if err != nil {
@@ -387,7 +387,7 @@ type DaemonServer interface {
 	Login(context.Context, *LoginRequest) (*Payload, error)
 	LoginOAuth2(context.Context, *emptypb.Empty) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error)
-	Logout(context.Context, *emptypb.Empty) (*Payload, error)
+	Logout(context.Context, *LogoutRequest) (*Payload, error)
 	Plans(context.Context, *emptypb.Empty) (*PlansResponse, error)
 	Ping(context.Context, *emptypb.Empty) (*Payload, error)
 	RateConnection(context.Context, *RateConnectionRequest) (*Payload, error)
@@ -448,7 +448,7 @@ func (UnimplementedDaemonServer) LoginOAuth2(context.Context, *emptypb.Empty) (*
 func (UnimplementedDaemonServer) LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginOAuth2Callback not implemented")
 }
-func (UnimplementedDaemonServer) Logout(context.Context, *emptypb.Empty) (*Payload, error) {
+func (UnimplementedDaemonServer) Logout(context.Context, *LogoutRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedDaemonServer) Plans(context.Context, *emptypb.Empty) (*PlansResponse, error) {
@@ -726,7 +726,7 @@ func _Daemon_LoginOAuth2Callback_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _Daemon_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(LogoutRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -738,7 +738,7 @@ func _Daemon_Logout_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/pb.Daemon/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).Logout(ctx, req.(*emptypb.Empty))
+		return srv.(DaemonServer).Logout(ctx, req.(*LogoutRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
