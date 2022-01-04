@@ -385,5 +385,9 @@ func (c Client) SettingsTechnologies() (*pb.TechnologyResponse, error) {
 
 // Status calls the Status RPC and returns a StatusResponse.
 func (c Client) Status() (*pb.StatusResponse, error) {
-	return c.daemonClient.Status(getContext(), &emptypb.Empty{})
+	r, err := c.daemonClient.Status(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	return r, err
 }
