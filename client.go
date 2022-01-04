@@ -208,10 +208,16 @@ func (c Client) SetDefaults() error {
 
 // SetDns calls the SetDns RPC.
 func (c Client) SetDns(servers []string, cyberSec bool) error {
-	_, err := c.daemonClient.SetDns(getContext(), &pb.SetDNSRequest{
+	r, err := c.daemonClient.SetDns(getContext(), &pb.SetDNSRequest{
 		Dns:      servers,
 		CyberSec: cyberSec,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
