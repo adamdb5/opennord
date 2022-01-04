@@ -34,7 +34,10 @@ func (c Client) Cities(req *pb.CitiesRequest) (*pb.CitiesResponse, error) {
 	return c.daemonClient.Cities(getContext(), req)
 }
 
-// Connect does something
+// Connect calls the Connect RPC and returns a stream of ConnectResponse.
+func (c Client) Connect(req *pb.ConnectRequest) (pb.Daemon_ConnectClient, error) {
+	return c.daemonClient.Connect(getContext(), req)
+}
 
 // Countries calls the Countries RPC and returns a CountriesResponse.
 func (c Client) Countries(req *pb.CountriesRequest) (*pb.CountriesResponse, error) {

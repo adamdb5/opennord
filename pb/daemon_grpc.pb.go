@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 type DaemonClient interface {
 	AccountInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AccountResponse, error)
 	Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*CitiesResponse, error)
-	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*Payload, error)
+	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (Daemon_ConnectClient, error)
 	Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error)
 	Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*Payload, error)
 	FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*FrontendCountriesResponse, error)
@@ -79,13 +79,36 @@ func (c *daemonClient) Cities(ctx context.Context, in *CitiesRequest, opts ...gr
 	return out, nil
 }
 
-func (c *daemonClient) Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*Payload, error) {
-	out := new(Payload)
-	err := c.cc.Invoke(ctx, "/pb.Daemon/Connect", in, out, opts...)
+func (c *daemonClient) Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (Daemon_ConnectClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Daemon_ServiceDesc.Streams[0], "/pb.Daemon/Connect", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &daemonConnectClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Daemon_ConnectClient interface {
+	Recv() (*ConnectResponse, error)
+	grpc.ClientStream
+}
+
+type daemonConnectClient struct {
+	grpc.ClientStream
+}
+
+func (x *daemonConnectClient) Recv() (*ConnectResponse, error) {
+	m := new(ConnectResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *daemonClient) Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error) {
@@ -355,7 +378,7 @@ func (c *daemonClient) Status(ctx context.Context, in *emptypb.Empty, opts ...gr
 type DaemonServer interface {
 	AccountInfo(context.Context, *emptypb.Empty) (*AccountResponse, error)
 	Cities(context.Context, *CitiesRequest) (*CitiesResponse, error)
-	Connect(context.Context, *ConnectRequest) (*Payload, error)
+	Connect(*ConnectRequest, Daemon_ConnectServer) error
 	Countries(context.Context, *CountriesRequest) (*CountriesResponse, error)
 	Disconnect(context.Context, *DisconnectRequest) (*Payload, error)
 	FrontendCountries(context.Context, *CountriesRequest) (*FrontendCountriesResponse, error)
@@ -398,8 +421,8 @@ func (UnimplementedDaemonServer) AccountInfo(context.Context, *emptypb.Empty) (*
 func (UnimplementedDaemonServer) Cities(context.Context, *CitiesRequest) (*CitiesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Cities not implemented")
 }
-func (UnimplementedDaemonServer) Connect(context.Context, *ConnectRequest) (*Payload, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
+func (UnimplementedDaemonServer) Connect(*ConnectRequest, Daemon_ConnectServer) error {
+	return status.Errorf(codes.Unimplemented, "method Connect not implemented")
 }
 func (UnimplementedDaemonServer) Countries(context.Context, *CountriesRequest) (*CountriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Countries not implemented")
@@ -537,22 +560,25 @@ func _Daemon_Cities_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Daemon_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConnectRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _Daemon_Connect_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ConnectRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(DaemonServer).Connect(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.Daemon/Connect",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).Connect(ctx, req.(*ConnectRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(DaemonServer).Connect(m, &daemonConnectServer{stream})
+}
+
+type Daemon_ConnectServer interface {
+	Send(*ConnectResponse) error
+	grpc.ServerStream
+}
+
+type daemonConnectServer struct {
+	grpc.ServerStream
+}
+
+func (x *daemonConnectServer) Send(m *ConnectResponse) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _Daemon_Countries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1093,10 +1119,6 @@ var Daemon_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Daemon_Cities_Handler,
 		},
 		{
-			MethodName: "Connect",
-			Handler:    _Daemon_Connect_Handler,
-		},
-		{
 			MethodName: "Countries",
 			Handler:    _Daemon_Countries_Handler,
 		},
@@ -1213,6 +1235,12 @@ var Daemon_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Daemon_Status_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Connect",
+			Handler:       _Daemon_Connect_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "pb/daemon.proto",
 }

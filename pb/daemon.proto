@@ -11,7 +11,7 @@ package pb;
 service Daemon {
   rpc AccountInfo (google.protobuf.Empty) returns (AccountResponse) {}             // Implemented
   rpc Cities (CitiesRequest) returns (CitiesResponse) {}                           // Implemented
-  rpc Connect (ConnectRequest) returns (Payload) {}                                // Not Implemented
+  rpc Connect (ConnectRequest) returns (stream ConnectResponse) {}                 // Implemented
   rpc Countries (CountriesRequest) returns (CountriesResponse) {}                  // Implemented
   rpc Disconnect (DisconnectRequest) returns (Payload) {}                          // Implemented
   rpc FrontendCountries (CountriesRequest) returns (FrontendCountriesResponse) {}  // Implemented
@@ -71,6 +71,11 @@ message CitiesResponse {
   repeated string names = 2;
 }
 
+message ConnectResponse {
+  uint32 type = 1;
+  repeated string data = 2;
+}
+
 message CountriesRequest {
   ProtocolEnum protocol = 1;
   bool obfuscate = 2;
@@ -100,7 +105,7 @@ message Bool {
 
 message Payload {
   int32 type = 1;
-  google.protobuf.Any data = 2;
+  repeated string data = 2;
 }
 
 message Whitelist {
