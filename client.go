@@ -317,9 +317,18 @@ func (c Client) SetProtocol(protocol Protocol) error {
 
 // SetTechnology calls the SetTechnology RPC.
 func (c Client) SetTechnology(technology Technology) error {
-	_, err := c.daemonClient.SetTechnology(getContext(), &pb.SetTechnologyRequest{
+	r, err := c.daemonClient.SetTechnology(getContext(), &pb.SetTechnologyRequest{
 		Technology: pb.TechnologyEnum(technology),
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return errors.New("technology already selected")
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
