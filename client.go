@@ -334,7 +334,16 @@ func (c Client) SetTechnology(technology Technology) error {
 
 // SetWhitelist calls the SetWhitelist RPC.
 func (c Client) SetWhitelist(req *pb.SetWhitelistRequest) error {
-	_, err := c.daemonClient.SetWhitelist(getContext(), req)
+	r, err := c.daemonClient.SetWhitelist(getContext(), req)
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return errors.New("auto-connect already enabled / disabled")
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
