@@ -348,9 +348,15 @@ func (c Client) SetWhitelist(req *pb.SetWhitelistRequest) error {
 }
 
 // Settings calls the Settings RPC. (but the settings RPC doesn't do anything anyway)
-func (c Client) Settings() error {
-	_, err := c.daemonClient.Settings(getContext(), &emptypb.Empty{})
-	return err
+func (c Client) Settings() (*pb.SettingsResponse, error) {
+	r, err := c.daemonClient.Settings(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return nil, errors.New("unknown error")
+	}
+	return r, err
 }
 
 // SettingsProtocols calls the SettingsProtocols RPC.

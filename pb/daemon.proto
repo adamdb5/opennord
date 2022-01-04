@@ -35,7 +35,7 @@ service Daemon {
   rpc SetObfuscate (SetGenericRequest) returns (Payload) {}                        // Implemented
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Implemented
-  rpc SetWhitelist (SetWhitelistRequest) returns (Payload) {}        // Implemented
+  rpc SetWhitelist (SetWhitelistRequest) returns (Payload) {}                      // Implemented
   rpc Settings (google.protobuf.Empty) returns (SettingsResponse) {}               // Implemented*
   rpc SettingsProtocols (google.protobuf.Empty) returns (ProtocolsResponse) {}     // Implemented
   rpc SettingsTechnologies (google.protobuf.Empty) returns (TechnologyResponse) {} // Implemented
@@ -213,12 +213,12 @@ message SetWhitelistRequest {
 }
 
 message SettingsResponse {
-  int32 type = 1;
-  string data = 2;
+  uint32 type = 1;
+  Settings settings = 2;
 }
 
 message Settings {
-  string technology = 1;
+  TechnologyEnum technology = 1;
   bool firewall = 2;
   bool killSwitch = 3;
   bool autoConnect = 4;
