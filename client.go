@@ -274,10 +274,19 @@ func (c Client) SetKillSwitch(enabled bool) error {
 
 // SetNotify calls the SetNotify RPC.
 func (c Client) SetNotify(enabled bool) error {
-	_, err := c.daemonClient.SetNotify(getContext(), &pb.SetNotifyRequest{
+	r, err := c.daemonClient.SetNotify(getContext(), &pb.SetNotifyRequest{
 		Uid:    1000, // Seems to be a magic number
 		Notify: enabled,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return errors.New("notifications already enabled / disabled")
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
