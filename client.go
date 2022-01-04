@@ -240,9 +240,18 @@ func (c Client) SetFirewall(enabled bool) error {
 
 // SetIpv6 calls the SetIPv6 RPC.
 func (c Client) SetIpv6(enabled bool) error {
-	_, err := c.daemonClient.SetIpv6(getContext(), &pb.SetGenericRequest{
+	r, err := c.daemonClient.SetIpv6(getContext(), &pb.SetGenericRequest{
 		Enabled: enabled,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() == StatusGenericError {
+		return errors.New("IPv6 already enabled / disabled")
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
