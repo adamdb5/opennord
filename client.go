@@ -26,7 +26,7 @@ func (c Client) Status() (*pb.StatusResponse, error) {
 
 // AccountInfo calls the AccountInfo RPC and returns an AccountResponse.
 func (c Client) AccountInfo() (*pb.AccountResponse, error) {
-	return c.daemonClient.AccountInfo(getContext(), &pb.AccountRequest{})
+	return c.daemonClient.AccountInfo(getContext(), &emptypb.Empty{})
 }
 
 // Cities calls the Cities RPC and returns a CitiesResponse.
@@ -191,13 +191,13 @@ func (c Client) SetDns(servers []string, cyberSec bool) error {
 
 // Settings calls the Settings RPC. (but the settings RPC doesn't do anything anyway)
 func (c Client) Settings() error {
-	_, err := c.daemonClient.Settings(getContext(), &pb.SettingsRequest{})
+	_, err := c.daemonClient.Settings(getContext(), &emptypb.Empty{})
 	return err
 }
 
 // SettingsProtocols calls the SettingsProtocols RPC.
 func (c Client) SettingsProtocols() (*pb.ProtocolsResponse, error) {
-	r, err := c.daemonClient.SettingsProtocols(getContext(), &pb.SettingsRequest{})
+	r, err := c.daemonClient.SettingsProtocols(getContext(), &emptypb.Empty{})
 	if err != nil {
 		return &pb.ProtocolsResponse{}, err
 	}
@@ -206,7 +206,7 @@ func (c Client) SettingsProtocols() (*pb.ProtocolsResponse, error) {
 
 // SettingsTechnologies calls the SettingsTechnologies RPC.
 func (c Client) SettingsTechnologies() (*pb.TechnologyResponse, error) {
-	r, err := c.daemonClient.SettingsTechnologies(getContext(), &pb.SettingsRequest{})
+	r, err := c.daemonClient.SettingsTechnologies(getContext(), &emptypb.Empty{})
 	if err != nil {
 		return &pb.TechnologyResponse{}, err
 	}

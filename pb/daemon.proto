@@ -9,7 +9,7 @@ package pb;
 
 // * = Not supported by Daemon
 service Daemon {
-  rpc AccountInfo (AccountRequest) returns (AccountResponse) {}                    // Implemented
+  rpc AccountInfo (google.protobuf.Empty) returns (AccountResponse) {}             // Implemented
   rpc Cities (CitiesRequest) returns (CitiesResponse) {}                           // Implemented
   rpc Connect (ConnectRequest) returns (Payload) {}                                // Not Implemented
   rpc Countries (CountriesRequest) returns (CountriesResponse) {}                  // Implemented
@@ -37,9 +37,9 @@ service Daemon {
   rpc SetProtocol (SetProtocolRequest) returns (Payload) {}                        // Implemented
   rpc SetTechnology (SetTechnologyRequest) returns (Payload) {}                    // Implemented
   rpc SetWhitelist (SetWhitelistRequest) returns (google.protobuf.Empty) {}        // Implemented
-  rpc Settings (SettingsRequest) returns (SettingsResponse) {}                     // Implemented*
-  rpc SettingsProtocols (SettingsRequest) returns (ProtocolsResponse) {}           // Implemented
-  rpc SettingsTechnologies (SettingsRequest) returns (TechnologyResponse) {}       // Implemented
+  rpc Settings (google.protobuf.Empty) returns (SettingsResponse) {}               // Implemented*
+  rpc SettingsProtocols (google.protobuf.Empty) returns (ProtocolsResponse) {}     // Implemented
+  rpc SettingsTechnologies (google.protobuf.Empty) returns (TechnologyResponse) {} // Implemented
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
 }
 
@@ -253,7 +253,6 @@ enum TechnologyEnum {
   OPENVPN = 1;
   NORDLYNX = 2;
   // SKYLARK = 3; Exists in codebase, but is not implemented
-  // (Possible future technology?)
 }
 
 enum ProtocolEnum {
@@ -267,10 +266,6 @@ enum AccountTypeEnum {
   INACTIVE = 1;
 }
 
-// Undefined
-message SettingsRequest { }
-message AccountRequest { }
-
 message SetAutoConnectRequest {
   string serverTag = 1;
   ProtocolEnum protocol = 2;
@@ -278,5 +273,5 @@ message SetAutoConnectRequest {
   bool obfuscate = 4;
   bool autoConnect = 5;
   bool dns = 6;
-  bool whitelist = 7;
+  Whitelist whitelist = 7;
 }

@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DaemonClient interface {
-	AccountInfo(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error)
+	AccountInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AccountResponse, error)
 	Cities(ctx context.Context, in *CitiesRequest, opts ...grpc.CallOption) (*CitiesResponse, error)
 	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*Payload, error)
 	Countries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*CountriesResponse, error)
@@ -47,9 +47,9 @@ type DaemonClient interface {
 	SetProtocol(ctx context.Context, in *SetProtocolRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetTechnology(ctx context.Context, in *SetTechnologyRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetWhitelist(ctx context.Context, in *SetWhitelistRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Settings(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*SettingsResponse, error)
-	SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*ProtocolsResponse, error)
-	SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*TechnologyResponse, error)
+	Settings(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SettingsResponse, error)
+	SettingsProtocols(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ProtocolsResponse, error)
+	SettingsTechnologies(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*TechnologyResponse, error)
 	Status(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*StatusResponse, error)
 }
 
@@ -61,7 +61,7 @@ func NewDaemonClient(cc grpc.ClientConnInterface) DaemonClient {
 	return &daemonClient{cc}
 }
 
-func (c *daemonClient) AccountInfo(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error) {
+func (c *daemonClient) AccountInfo(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AccountResponse, error) {
 	out := new(AccountResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/AccountInfo", in, out, opts...)
 	if err != nil {
@@ -313,7 +313,7 @@ func (c *daemonClient) SetWhitelist(ctx context.Context, in *SetWhitelistRequest
 	return out, nil
 }
 
-func (c *daemonClient) Settings(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*SettingsResponse, error) {
+func (c *daemonClient) Settings(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SettingsResponse, error) {
 	out := new(SettingsResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Settings", in, out, opts...)
 	if err != nil {
@@ -322,7 +322,7 @@ func (c *daemonClient) Settings(ctx context.Context, in *SettingsRequest, opts .
 	return out, nil
 }
 
-func (c *daemonClient) SettingsProtocols(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*ProtocolsResponse, error) {
+func (c *daemonClient) SettingsProtocols(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ProtocolsResponse, error) {
 	out := new(ProtocolsResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SettingsProtocols", in, out, opts...)
 	if err != nil {
@@ -331,7 +331,7 @@ func (c *daemonClient) SettingsProtocols(ctx context.Context, in *SettingsReques
 	return out, nil
 }
 
-func (c *daemonClient) SettingsTechnologies(ctx context.Context, in *SettingsRequest, opts ...grpc.CallOption) (*TechnologyResponse, error) {
+func (c *daemonClient) SettingsTechnologies(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*TechnologyResponse, error) {
 	out := new(TechnologyResponse)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/SettingsTechnologies", in, out, opts...)
 	if err != nil {
@@ -353,7 +353,7 @@ func (c *daemonClient) Status(ctx context.Context, in *emptypb.Empty, opts ...gr
 // All implementations must embed UnimplementedDaemonServer
 // for forward compatibility
 type DaemonServer interface {
-	AccountInfo(context.Context, *AccountRequest) (*AccountResponse, error)
+	AccountInfo(context.Context, *emptypb.Empty) (*AccountResponse, error)
 	Cities(context.Context, *CitiesRequest) (*CitiesResponse, error)
 	Connect(context.Context, *ConnectRequest) (*Payload, error)
 	Countries(context.Context, *CountriesRequest) (*CountriesResponse, error)
@@ -381,9 +381,9 @@ type DaemonServer interface {
 	SetProtocol(context.Context, *SetProtocolRequest) (*Payload, error)
 	SetTechnology(context.Context, *SetTechnologyRequest) (*Payload, error)
 	SetWhitelist(context.Context, *SetWhitelistRequest) (*emptypb.Empty, error)
-	Settings(context.Context, *SettingsRequest) (*SettingsResponse, error)
-	SettingsProtocols(context.Context, *SettingsRequest) (*ProtocolsResponse, error)
-	SettingsTechnologies(context.Context, *SettingsRequest) (*TechnologyResponse, error)
+	Settings(context.Context, *emptypb.Empty) (*SettingsResponse, error)
+	SettingsProtocols(context.Context, *emptypb.Empty) (*ProtocolsResponse, error)
+	SettingsTechnologies(context.Context, *emptypb.Empty) (*TechnologyResponse, error)
 	Status(context.Context, *emptypb.Empty) (*StatusResponse, error)
 	mustEmbedUnimplementedDaemonServer()
 }
@@ -392,7 +392,7 @@ type DaemonServer interface {
 type UnimplementedDaemonServer struct {
 }
 
-func (UnimplementedDaemonServer) AccountInfo(context.Context, *AccountRequest) (*AccountResponse, error) {
+func (UnimplementedDaemonServer) AccountInfo(context.Context, *emptypb.Empty) (*AccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccountInfo not implemented")
 }
 func (UnimplementedDaemonServer) Cities(context.Context, *CitiesRequest) (*CitiesResponse, error) {
@@ -476,13 +476,13 @@ func (UnimplementedDaemonServer) SetTechnology(context.Context, *SetTechnologyRe
 func (UnimplementedDaemonServer) SetWhitelist(context.Context, *SetWhitelistRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetWhitelist not implemented")
 }
-func (UnimplementedDaemonServer) Settings(context.Context, *SettingsRequest) (*SettingsResponse, error) {
+func (UnimplementedDaemonServer) Settings(context.Context, *emptypb.Empty) (*SettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Settings not implemented")
 }
-func (UnimplementedDaemonServer) SettingsProtocols(context.Context, *SettingsRequest) (*ProtocolsResponse, error) {
+func (UnimplementedDaemonServer) SettingsProtocols(context.Context, *emptypb.Empty) (*ProtocolsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SettingsProtocols not implemented")
 }
-func (UnimplementedDaemonServer) SettingsTechnologies(context.Context, *SettingsRequest) (*TechnologyResponse, error) {
+func (UnimplementedDaemonServer) SettingsTechnologies(context.Context, *emptypb.Empty) (*TechnologyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SettingsTechnologies not implemented")
 }
 func (UnimplementedDaemonServer) Status(context.Context, *emptypb.Empty) (*StatusResponse, error) {
@@ -502,7 +502,7 @@ func RegisterDaemonServer(s grpc.ServiceRegistrar, srv DaemonServer) {
 }
 
 func _Daemon_AccountInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccountRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -514,7 +514,7 @@ func _Daemon_AccountInfo_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/pb.Daemon/AccountInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).AccountInfo(ctx, req.(*AccountRequest))
+		return srv.(DaemonServer).AccountInfo(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1006,7 +1006,7 @@ func _Daemon_SetWhitelist_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _Daemon_Settings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SettingsRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1018,13 +1018,13 @@ func _Daemon_Settings_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/pb.Daemon/Settings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).Settings(ctx, req.(*SettingsRequest))
+		return srv.(DaemonServer).Settings(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Daemon_SettingsProtocols_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SettingsRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1036,13 +1036,13 @@ func _Daemon_SettingsProtocols_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/pb.Daemon/SettingsProtocols",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).SettingsProtocols(ctx, req.(*SettingsRequest))
+		return srv.(DaemonServer).SettingsProtocols(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Daemon_SettingsTechnologies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SettingsRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1054,7 +1054,7 @@ func _Daemon_SettingsTechnologies_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/pb.Daemon/SettingsTechnologies",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DaemonServer).SettingsTechnologies(ctx, req.(*SettingsRequest))
+		return srv.(DaemonServer).SettingsTechnologies(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
