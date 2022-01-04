@@ -1,9 +1,11 @@
 package opennord
 
 import (
+	"errors"
 	"github.com/adamdb5/opennord/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -19,40 +21,71 @@ func getContext() context.Context {
 	return ctx
 }
 
-// Status calls the Status RPC and returns a StatusResponse.
-func (c Client) Status() (*pb.StatusResponse, error) {
-	return c.daemonClient.Status(getContext(), &emptypb.Empty{})
-}
-
 // AccountInfo calls the AccountInfo RPC and returns an AccountResponse.
 func (c Client) AccountInfo() (*pb.AccountResponse, error) {
-	return c.daemonClient.AccountInfo(getContext(), &emptypb.Empty{})
+	r, err := c.daemonClient.AccountInfo(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	return r, err
 }
 
 // Cities calls the Cities RPC and returns a CitiesResponse.
-func (c Client) Cities(req *pb.CitiesRequest) (*pb.CitiesResponse, error) {
-	return c.daemonClient.Cities(getContext(), req)
+func (c Client) Cities(country string) (*pb.CitiesResponse, error) {
+	r, err := c.daemonClient.Cities(getContext(), &pb.CitiesRequest{
+		Protocol:  pb.ProtocolEnum_UDP,
+		Obfuscate: false,
+		Country:   country,
+	})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != ErrOk {
+		return nil, errors.New("unknown error")
+	}
+	return r, err
 }
 
 // Connect calls the Connect RPC and returns a stream of ConnectResponse.
 func (c Client) Connect(req *pb.ConnectRequest) (pb.Daemon_ConnectClient, error) {
-	return c.daemonClient.Connect(getContext(), req)
+	r, err := c.daemonClient.Connect(getContext(), req)
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	return r, err
 }
 
 // Countries calls the Countries RPC and returns a CountriesResponse.
-func (c Client) Countries(req *pb.CountriesRequest) (*pb.CountriesResponse, error) {
-	return c.daemonClient.Countries(getContext(), req)
+func (c Client) Countries() (*pb.CountriesResponse, error) {
+	r, err := c.daemonClient.Countries(getContext(), &pb.CountriesRequest{
+		Protocol:  pb.ProtocolEnum_UDP,
+		Obfuscate: false,
+	})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	return r, err
 }
 
 // Disconnect calls the Disconnect RPC and terminates the current VPN session.
 func (c Client) Disconnect() error {
 	_, err := c.daemonClient.Disconnect(getContext(), &pb.DisconnectRequest{Id: 0})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
 	return err
 }
 
 // FrontendCountries calls the FrontendCountries RPC and returns a CountriesResponse.
-func (c Client) FrontendCountries(req *pb.CountriesRequest) (*pb.FrontendCountriesResponse, error) {
-	return c.daemonClient.FrontendCountries(getContext(), req)
+func (c Client) FrontendCountries() (*pb.FrontendCountriesResponse, error) {
+	r, err := c.daemonClient.FrontendCountries(getContext(), &pb.CountriesRequest{
+		Protocol:  pb.ProtocolEnum_UDP,
+		Obfuscate: false,
+	})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	return r, err
 }
 
 // Groups calls the Groups RPC and returns a GroupsResponse.
@@ -67,36 +100,68 @@ func (c Client) IsLoggedIn() (*pb.IsLoggedInResponse, error) {
 
 // Login calls the Login RPC.
 func (c Client) Login(req *pb.LoginRequest) error {
-	_, err := c.daemonClient.Login(getContext(), req)
+	r, err := c.daemonClient.Login(getContext(), req)
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != ErrOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
 // LoginOAuth2 calls the LoginOAuth2 RPC.
 func (c Client) LoginOAuth2() (*pb.LoginOAuth2Response, error) {
-	return c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
+	r, err := c.daemonClient.LoginOAuth2(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	return r, err
 }
 
 // Logout calls the Logout RPC.
 func (c Client) Logout() error {
 	_, err := c.daemonClient.Logout(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
 	return err
 }
 
 // Plans calls the Plans RPC.
 func (c Client) Plans() (*pb.PlansResponse, error) {
-	return c.daemonClient.Plans(getContext(), &emptypb.Empty{})
+	r, err := c.daemonClient.Plans(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return nil, errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != ErrOk {
+		return nil, errors.New("unknown error")
+	}
+	return r, err
 }
 
 // Ping checks that the daemon is alive via the Ping RPC.
 // If the value returned is nil, the ping succeeded.
 func (c Client) Ping() error {
-	_, err := c.daemonClient.Ping(getContext(), &emptypb.Empty{})
+	r, err := c.daemonClient.Ping(getContext(), &emptypb.Empty{})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != ErrOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
 // RateConnection calls the RateConnection RPC.
 func (c Client) RateConnection(req *pb.RateConnectionRequest) error {
-	_, err := c.daemonClient.RateConnection(getContext(), req)
+	r, err := c.daemonClient.RateConnection(getContext(), req)
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != ErrOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
@@ -213,4 +278,9 @@ func (c Client) SettingsTechnologies() (*pb.TechnologyResponse, error) {
 		return &pb.TechnologyResponse{}, err
 	}
 	return r, err
+}
+
+// Status calls the Status RPC and returns a StatusResponse.
+func (c Client) Status() (*pb.StatusResponse, error) {
+	return c.daemonClient.Status(getContext(), &emptypb.Empty{})
 }

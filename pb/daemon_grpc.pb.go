@@ -27,12 +27,12 @@ type DaemonClient interface {
 	FrontendCountries(ctx context.Context, in *CountriesRequest, opts ...grpc.CallOption) (*FrontendCountriesResponse, error)
 	Groups(ctx context.Context, in *GroupsRequest, opts ...grpc.CallOption) (*GroupsResponse, error)
 	IsLoggedIn(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*IsLoggedInResponse, error)
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Payload, error)
 	LoginOAuth2(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
-	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	Plans(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PlansResponse, error)
-	Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error)
 	RateConnection(ctx context.Context, in *RateConnectionRequest, opts ...grpc.CallOption) (*Payload, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*Payload, error)
 	SetAutoConnect(ctx context.Context, in *SetAutoConnectRequest, opts ...grpc.CallOption) (*Payload, error)
@@ -156,8 +156,8 @@ func (c *daemonClient) IsLoggedIn(ctx context.Context, in *emptypb.Empty, opts .
 	return out, nil
 }
 
-func (c *daemonClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *daemonClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Payload, error) {
+	out := new(Payload)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -183,8 +183,8 @@ func (c *daemonClient) LoginOAuth2Callback(ctx context.Context, in *emptypb.Empt
 	return out, nil
 }
 
-func (c *daemonClient) Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *daemonClient) Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
+	out := new(Payload)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -201,8 +201,8 @@ func (c *daemonClient) Plans(ctx context.Context, in *emptypb.Empty, opts ...grp
 	return out, nil
 }
 
-func (c *daemonClient) Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *daemonClient) Ping(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Payload, error) {
+	out := new(Payload)
 	err := c.cc.Invoke(ctx, "/pb.Daemon/Ping", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -384,12 +384,12 @@ type DaemonServer interface {
 	FrontendCountries(context.Context, *CountriesRequest) (*FrontendCountriesResponse, error)
 	Groups(context.Context, *GroupsRequest) (*GroupsResponse, error)
 	IsLoggedIn(context.Context, *emptypb.Empty) (*IsLoggedInResponse, error)
-	Login(context.Context, *LoginRequest) (*emptypb.Empty, error)
+	Login(context.Context, *LoginRequest) (*Payload, error)
 	LoginOAuth2(context.Context, *emptypb.Empty) (*LoginOAuth2Response, error)
 	LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error)
-	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+	Logout(context.Context, *emptypb.Empty) (*Payload, error)
 	Plans(context.Context, *emptypb.Empty) (*PlansResponse, error)
-	Ping(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+	Ping(context.Context, *emptypb.Empty) (*Payload, error)
 	RateConnection(context.Context, *RateConnectionRequest) (*Payload, error)
 	Register(context.Context, *RegisterRequest) (*Payload, error)
 	SetAutoConnect(context.Context, *SetAutoConnectRequest) (*Payload, error)
@@ -439,7 +439,7 @@ func (UnimplementedDaemonServer) Groups(context.Context, *GroupsRequest) (*Group
 func (UnimplementedDaemonServer) IsLoggedIn(context.Context, *emptypb.Empty) (*IsLoggedInResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsLoggedIn not implemented")
 }
-func (UnimplementedDaemonServer) Login(context.Context, *LoginRequest) (*emptypb.Empty, error) {
+func (UnimplementedDaemonServer) Login(context.Context, *LoginRequest) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedDaemonServer) LoginOAuth2(context.Context, *emptypb.Empty) (*LoginOAuth2Response, error) {
@@ -448,13 +448,13 @@ func (UnimplementedDaemonServer) LoginOAuth2(context.Context, *emptypb.Empty) (*
 func (UnimplementedDaemonServer) LoginOAuth2Callback(context.Context, *emptypb.Empty) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginOAuth2Callback not implemented")
 }
-func (UnimplementedDaemonServer) Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
+func (UnimplementedDaemonServer) Logout(context.Context, *emptypb.Empty) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedDaemonServer) Plans(context.Context, *emptypb.Empty) (*PlansResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Plans not implemented")
 }
-func (UnimplementedDaemonServer) Ping(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
+func (UnimplementedDaemonServer) Ping(context.Context, *emptypb.Empty) (*Payload, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
 func (UnimplementedDaemonServer) RateConnection(context.Context, *RateConnectionRequest) (*Payload, error) {

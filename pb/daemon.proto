@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "google/protobuf/empty.proto";
-import "google/protobuf/any.proto";
 
 option go_package = "github.com/adamdb5/opennord/pb";
 
@@ -17,12 +16,12 @@ service Daemon {
   rpc FrontendCountries (CountriesRequest) returns (FrontendCountriesResponse) {}  // Implemented
   rpc Groups (GroupsRequest) returns (GroupsResponse) {}                           // Implemented
   rpc IsLoggedIn (google.protobuf.Empty) returns (IsLoggedInResponse) {}           // Implemented
-  rpc Login (LoginRequest) returns (google.protobuf.Empty) {}                      // Implemented
+  rpc Login (LoginRequest) returns (Payload) {}                                    // Implemented
   rpc LoginOAuth2 (google.protobuf.Empty) returns (LoginOAuth2Response) {}         // Implemented
   rpc LoginOAuth2Callback (google.protobuf.Empty) returns (Payload) {}             // Not Implemented
-  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}            // Implemented
+  rpc Logout (google.protobuf.Empty) returns (Payload) {}            // Implemented
   rpc Plans (google.protobuf.Empty) returns (PlansResponse) {}                     // Implemented
-  rpc Ping (google.protobuf.Empty) returns (google.protobuf.Empty) {}              // Implemented
+  rpc Ping (google.protobuf.Empty) returns (Payload) {}              // Implemented
   rpc RateConnection (RateConnectionRequest) returns (Payload) {}                  // Implemented
   rpc Register (RegisterRequest) returns (Payload) {}                              // Implemented*
   rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Implemented
@@ -43,116 +42,79 @@ service Daemon {
   rpc Status (google.protobuf.Empty) returns (StatusResponse) {}                   // Implemented
 }
 
-message ProtocolsResponse {
-  int32 type = 1;
-  repeated string protocols = 2;
-}
-
-message TechnologyResponse {
-  int32 type = 1;
-  repeated string technologies = 2;
-}
-
-message AccountResponse {
-  AccountTypeEnum type = 1;
-  string username = 2; // Unused
+message AccountResponse { /* USED */
+  uint32 type = 1;
+  // string username = 2; (Not used)
   string email = 3;
   string expiresAt = 4;
 }
 
-message CitiesRequest {
+message CitiesRequest { /* USED */
   ProtocolEnum protocol = 1;
   bool obfuscate = 2;
   string country = 3;
 }
 
-message CitiesResponse {
-  int32 type = 1;
-  repeated string names = 2;
-}
-
-message ConnectResponse {
+message CitiesResponse { /* USED */
   uint32 type = 1;
-  repeated string data = 2;
+  repeated string cities = 2;
 }
 
-message CountriesRequest {
-  ProtocolEnum protocol = 1;
-  bool obfuscate = 2;
-}
-
-message CountriesResponse {
-  int32 type = 1;
-  repeated string names = 2;
-}
-
-message FrontendCountry {
-  string name = 1;
-  string code = 2;
-}
-
-message FrontendCountriesResponse {
-  repeated FrontendCountry countries = 1;
-}
-
-message IsLoggedInResponse {
-  bool isLoggedIn = 1;
-}
-
-message Bool {
-  bool value = 1;
-}
-
-message Payload {
-  int32 type = 1;
-  repeated string data = 2;
-}
-
-message Whitelist {
-  Ports ports = 1;
-  repeated string subnets = 2;
-}
-
-message Ports {
-  repeated int32 udp = 1;
-  repeated int32 tcp = 2;
-}
-
-message ConnectRequest {
+message ConnectRequest { /* USED */
   string serverTag = 1;
   ProtocolEnum protocol = 5;
   bool obfuscate = 6;
   bool cyberSec = 7;
-//bool killSwitch = 8; // No effect
+  // bool killSwitch = 8; (No effect)
   repeated string dns = 9;
   Whitelist whiteList = 10;
-//bool serverGroup = 8; // No effect
-//string nordLynxPrivateKey = 9; // No effect
+  // bool serverGroup = 8; (No effect)
+  // string nordLynxPrivateKey = 9; (No effect)
 }
 
-message Country {
-  string name = 1;
-  string code = 2;
+message ConnectResponse { /* USED */
+  uint32 type = 1;
+  repeated string messages = 2;
 }
 
-message ServersListRequest {
-  string protocol = 1;
-  int32 count = 2;
-  string serverTag = 3;
+message CountriesRequest { // USED
+  ProtocolEnum protocol = 1;
+  bool obfuscate = 2;
 }
 
-message DisconnectRequest {
+message CountriesResponse { // USED
+  int32 type = 1;
+  repeated string countries = 2;
+}
+
+message DisconnectRequest {// USED
   int32 id = 2;
 }
 
-message GroupsRequest {
-  ProtocolEnum protocol = 1;
-  bool obfuscate = 2;
+message FrontendCountriesResponse { //USED
+  repeated FrontendCountry countries = 1;
+}
+
+message FrontendCountry { // USED
+  string name = 1;
+  string code = 2;
 }
 
 message GroupsResponse {
   int32 type = 1;
   repeated string names = 2;
+}
+message GroupsRequest {
+  ProtocolEnum protocol = 1;
+  bool obfuscate = 2;
+}
+
+message IsLoggedInResponse { // USED
+  bool isLoggedIn = 1;
+}
+
+message LoginOAuth2Response {
+  string url = 1;
 }
 
 message LoginRequest {
@@ -160,16 +122,13 @@ message LoginRequest {
   string password = 2;
 }
 
-message LoginOAuth2Response {
-  string url = 1;
-}
-
-message String {
-  google.protobuf.Any data = 1;
-}
-
 message LogoutRequest {
   int32 id = 2;
+}
+
+message Payload {
+  int32 type = 1;
+  repeated string data = 2;
 }
 
 message Plan {
@@ -180,16 +139,33 @@ message Plan {
 }
 
 message PlansResponse {
+  uint32 type = 1;
   repeated Plan plans = 2;
 }
 
-message RateConnectionRequest {
-  int32 rating = 1;
+message Ports {
+  repeated int32 udp = 1;
+  repeated int32 tcp = 2;
+}
+
+message ProtocolsResponse { // USED
+  uint32 type = 1;
+  repeated string protocols = 2;
+}
+
+message ServersListRequest {
+  string protocol = 1;
+  int32 count = 2;
+  string serverTag = 3;
 }
 
 message RegisterRequest {
   string email = 1;
   string password = 2;
+}
+
+message RateConnectionRequest {
+  int32 rating = 1;
 }
 
 message SetAutoConnectRequest {
@@ -263,6 +239,17 @@ message StatusResponse {
   int64 uptime = 10; // nanoseconds
 }
 
+message TechnologyResponse { // USED
+  uint32 type = 1;
+  repeated string technologies = 2;
+}
+
+message Whitelist {
+  Ports ports = 1;
+  repeated string subnets = 2;
+}
+
+// Enums
 enum TechnologyEnum {
   UNKNOWN_TECHNOLOGY = 0;
   OPENVPN = 1;
@@ -274,9 +261,4 @@ enum ProtocolEnum {
   UNKNOWN_PROTOCOL = 0;
   UDP = 1;
   TCP = 2;
-}
-
-enum AccountTypeEnum {
-  ACTIVE = 0;
-  INACTIVE = 1;
 }
