@@ -25,7 +25,7 @@ service Daemon {
   rpc Ping (google.protobuf.Empty) returns (google.protobuf.Empty) {}              // Implemented
   rpc RateConnection (RateConnectionRequest) returns (Payload) {}                  // Implemented
   rpc Register (RegisterRequest) returns (Payload) {}                              // Implemented*
-  rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Not Implemented
+  rpc SetAutoConnect (SetAutoConnectRequest) returns (Payload) {}                  // Implemented
   rpc SetCyberSec (SetCyberSecRequest) returns (google.protobuf.Empty) {}          // Implemented
   rpc SetDefaults (google.protobuf.Empty) returns (google.protobuf.Empty) {}       // Implemented
   rpc SetDns (SetDNSRequest) returns (Payload) {}                                  // Implemented
