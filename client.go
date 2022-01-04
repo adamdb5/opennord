@@ -180,17 +180,17 @@ func (c Client) SetAutoConnect(req *pb.SetAutoConnectRequest) (*pb.Payload, erro
 	return r, err
 }
 
-// SetWhitelist calls the SetWhitelist RPC.
-func (c Client) SetWhitelist(req *pb.SetWhitelistRequest) error {
-	_, err := c.daemonClient.SetWhitelist(getContext(), req)
-	return err
-}
-
 // SetCyberSec calls the SetCyberSec RPC.
 func (c Client) SetCyberSec(enabled bool) error {
-	_, err := c.daemonClient.SetCyberSec(getContext(), &pb.SetCyberSecRequest{
+	r, err := c.daemonClient.SetCyberSec(getContext(), &pb.SetCyberSecRequest{
 		CyberSec: enabled,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
@@ -200,10 +200,11 @@ func (c Client) SetDefaults() error {
 	return err
 }
 
-// SetKillSwitch calls the SetKilLSwitch RPC.
-func (c Client) SetKillSwitch(enabled bool) error {
-	_, err := c.daemonClient.SetKillSwitch(getContext(), &pb.SetKillSwitchRequest{
-		Enabled: enabled,
+// SetDns calls the SetDns RPC.
+func (c Client) SetDns(servers []string, cyberSec bool) error {
+	_, err := c.daemonClient.SetDns(getContext(), &pb.SetDNSRequest{
+		Dns:      servers,
+		CyberSec: cyberSec,
 	})
 	return err
 }
@@ -211,6 +212,22 @@ func (c Client) SetKillSwitch(enabled bool) error {
 // SetFirewall calls the SetFirewall RPC.
 func (c Client) SetFirewall(enabled bool) error {
 	_, err := c.daemonClient.SetFirewall(getContext(), &pb.SetGenericRequest{
+		Enabled: enabled,
+	})
+	return err
+}
+
+// SetIpv6 calls the SetIPv6 RPC.
+func (c Client) SetIpv6(enabled bool) error {
+	_, err := c.daemonClient.SetIpv6(getContext(), &pb.SetGenericRequest{
+		Enabled: enabled,
+	})
+	return err
+}
+
+// SetKillSwitch calls the SetKilLSwitch RPC.
+func (c Client) SetKillSwitch(enabled bool) error {
+	_, err := c.daemonClient.SetKillSwitch(getContext(), &pb.SetKillSwitchRequest{
 		Enabled: enabled,
 	})
 	return err
@@ -249,20 +266,9 @@ func (c Client) SetTechnology(technology Technology) error {
 	return err
 }
 
-// SetIpv6 calls the SetIPv6 RPC.
-func (c Client) SetIpv6(enabled bool) error {
-	_, err := c.daemonClient.SetIpv6(getContext(), &pb.SetGenericRequest{
-		Enabled: enabled,
-	})
-	return err
-}
-
-// SetDns calls the SetDns RPC.
-func (c Client) SetDns(servers []string, cyberSec bool) error {
-	_, err := c.daemonClient.SetDns(getContext(), &pb.SetDNSRequest{
-		Dns:      servers,
-		CyberSec: cyberSec,
-	})
+// SetWhitelist calls the SetWhitelist RPC.
+func (c Client) SetWhitelist(req *pb.SetWhitelistRequest) error {
+	_, err := c.daemonClient.SetWhitelist(getContext(), req)
 	return err
 }
 
