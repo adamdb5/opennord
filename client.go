@@ -281,9 +281,6 @@ func (c Client) SetNotify(enabled bool) error {
 	if err != nil {
 		return errors.New(status.Convert(err).Message())
 	}
-	if r.GetType() == StatusGenericError {
-		return errors.New("notifications already enabled / disabled")
-	}
 	if r.GetType() != StatusOk {
 		return errors.New("unknown error")
 	}
@@ -292,9 +289,15 @@ func (c Client) SetNotify(enabled bool) error {
 
 // SetObfuscate calls the SetObfuscate RPC.
 func (c Client) SetObfuscate(enabled bool) error {
-	_, err := c.daemonClient.SetObfuscate(getContext(), &pb.SetGenericRequest{
+	r, err := c.daemonClient.SetObfuscate(getContext(), &pb.SetGenericRequest{
 		Enabled: enabled,
 	})
+	if err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+	if r.GetType() != StatusOk {
+		return errors.New("unknown error")
+	}
 	return err
 }
 
