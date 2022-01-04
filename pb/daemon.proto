@@ -123,11 +123,11 @@ message ConnectRequest {
   ProtocolEnum protocol = 5;
   bool obfuscate = 6;
   bool cyberSec = 7;
-//  bool killSwitch = 8; // No effect
+//bool killSwitch = 8; // No effect
   repeated string dns = 9;
   Whitelist whiteList = 10;
-//  bool serverGroup = 8; // No effect
-//  string nordLynxPrivateKey = 9; // No effect
+//bool serverGroup = 8; // No effect
+//string nordLynxPrivateKey = 9; // No effect
 }
 
 message Country {
@@ -190,6 +190,16 @@ message RateConnectionRequest {
 message RegisterRequest {
   string email = 1;
   string password = 2;
+}
+
+message SetAutoConnectRequest {
+  string serverTag = 4;
+  ProtocolEnum protocol = 5;
+  bool cyberSec = 7;
+  bool obfuscate = 8;
+  bool autoConnect = 9;
+  repeated string dns = 10;
+  Whitelist whitelist = 11;
 }
 
 message SetGenericRequest {
@@ -269,14 +279,4 @@ enum ProtocolEnum {
 enum AccountTypeEnum {
   ACTIVE = 0;
   INACTIVE = 1;
-}
-
-message SetAutoConnectRequest {
-  string serverTag = 1;
-  ProtocolEnum protocol = 2;
-  bool cyberSec = 3;
-  bool obfuscate = 4;
-  bool autoConnect = 5;
-  bool dns = 6;
-  Whitelist whitelist = 7;
 }

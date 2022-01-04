@@ -101,7 +101,6 @@ func (c Client) RateConnection(req *pb.RateConnectionRequest) error {
 }
 
 // SetAutoConnect calls the SetAutoConnect RPC.
-// TODO: fix
 func (c Client) SetAutoConnect(req *pb.SetAutoConnectRequest) (*pb.Payload, error) {
 	return c.daemonClient.SetAutoConnect(getContext(), req)
 }
