@@ -347,7 +347,7 @@ func (c Client) SetWhitelist(req *pb.SetWhitelistRequest) error {
 	return err
 }
 
-// Settings calls the Settings RPC. (but the settings RPC doesn't do anything anyway)
+// Settings calls the Settings RPC.
 func (c Client) Settings() (*pb.SettingsResponse, error) {
 	r, err := c.daemonClient.Settings(getContext(), &emptypb.Empty{})
 	if err != nil {
