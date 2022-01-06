@@ -101,8 +101,8 @@ message FrontendCountry {
 }
 
 message GroupsResponse {
-  int32 type = 1;
-  repeated string names = 2;
+  uint32 type = 1;
+  repeated string groups = 2;
 }
 
 message GroupsRequest {
@@ -128,7 +128,7 @@ message LogoutRequest {
 }
 
 message Payload {
-  int32 type = 1;
+  uint32 type = 1;
   repeated string data = 2;
 }
 
@@ -160,7 +160,7 @@ message RegisterRequest {
 }
 
 message RateConnectionRequest {
-  int32 rating = 1;
+  uint32 rating = 1;
 }
 
 message SetAutoConnectRequest {

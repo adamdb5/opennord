@@ -207,11 +207,8 @@ func (c Client) SetDefaults() error {
 }
 
 // SetDns calls the SetDns RPC.
-func (c Client) SetDns(servers []string, cyberSec bool) error {
-	r, err := c.daemonClient.SetDns(getContext(), &pb.SetDNSRequest{
-		Dns:      servers,
-		CyberSec: cyberSec,
-	})
+func (c Client) SetDns(req *pb.SetDNSRequest) error {
+	r, err := c.daemonClient.SetDns(getContext(), req)
 	if err != nil {
 		return errors.New(status.Convert(err).Message())
 	}
@@ -302,7 +299,7 @@ func (c Client) SetObfuscate(enabled bool) error {
 }
 
 // SetProtocol calls the SetProtocol RPC.
-func (c Client) SetProtocol(protocol Protocol) error {
+func (c Client) SetProtocol(protocol pb.ProtocolEnum) error {
 	r, err := c.daemonClient.SetProtocol(getContext(), &pb.SetProtocolRequest{
 		Protocol: pb.ProtocolEnum(protocol),
 	})
@@ -316,7 +313,7 @@ func (c Client) SetProtocol(protocol Protocol) error {
 }
 
 // SetTechnology calls the SetTechnology RPC.
-func (c Client) SetTechnology(technology Technology) error {
+func (c Client) SetTechnology(technology pb.TechnologyEnum) error {
 	r, err := c.daemonClient.SetTechnology(getContext(), &pb.SetTechnologyRequest{
 		Technology: pb.TechnologyEnum(technology),
 	})

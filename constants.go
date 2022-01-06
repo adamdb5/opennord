@@ -4,10 +4,6 @@ import (
 	"time"
 )
 
-type Boolean uint32
-type Protocol uint32
-type Technology uint32
-
 const (
 	SocketPath     = "/run/nordvpn/nordvpnd.sock"
 	SocketAddress  = "unix://" + SocketPath
