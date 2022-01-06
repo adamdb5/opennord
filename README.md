@@ -9,7 +9,8 @@ Documentation is available [here](https://adamdb5.github.io/opennord).
 Reverse engineering write-up is available [here](https://adambruce.net/blog/reverse-engineering-nordvpn-client/)
 
 ## Contributing
-If you run into any issues or see something to improve, please feel free to create an issue or a pull request.
+If you run into any issues or see something that you would like to improve, please feel free to create an issue or raise
+a pull request.
 
 ## License
 This library is licensed under the MIT license.
