@@ -645,7 +645,7 @@ type GroupsRequest struct {
 ```
 
 ### Fields
-- Protocol: `ProtocolEnum` - The protocol to use, possible values are Possible values are TechnologyEnum_OPENVPN and
+- Protocol: `ProtocolEnum` - The protocol to use, possible values are TechnologyEnum_OPENVPN and
 TechnologyEnum_NORDLYNX.
 - Obfuscate: `bool` - Whether the group needs to support obfuscation.
 
