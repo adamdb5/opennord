@@ -1,10 +1,11 @@
-# opennord
-A Go library for interacting with the Linux nordvpn daemon.
+# OpenNord ![Build Workflow](https://github.com/adamdb5/opennord/actions/workflows/go-build.yml/badge.svg)
 
-![Build Workflow](https://github.com/adamdb5/opennord/actions/workflows/go-build.yml/badge.svg)
+---
 
-Opennord does NOT interact with the commandline utility, instead it communicates with the nordvpn daemon via gRPC.
+A Go library for interacting with the Linux nordvpn daemon. 
 
-Documentation coming soon.
+OpenNord communicates directly with the NordVPN Linux daemon via gRPC.
 
-Reverse engineering write-up coming soon.
+Documentation is available [here](https://adamdb5.github.io/opennord).
+
+Reverse engineering write-up is *coming soon*.
