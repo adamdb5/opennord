@@ -834,7 +834,7 @@ type Settings struct {
 ```
 
 ## Fields
-- technology: `TechnologyEnum` - Which technology to use. Possible values are TechnologyEnum_OPENVPN and 
+- Technology: `TechnologyEnum` - Which technology to use. Possible values are TechnologyEnum_OPENVPN and 
 TechnologyEnum_NORDLYNX.
 - Firewall: `bool` - Whether the NordVPN firewall is enabled.
 - KillSwitch: `bool` - Whether the NordVPN killswitch is enabled.
