@@ -5,6 +5,7 @@
 - [Functions](#functions)
 - [Types](#structs)
 - [Interfaces](#interfaces)
+- [Example](#example)
 
 # Introduction
 OpenNord was originally created because no Linux GUI existed for NordVPN. Instead, the only way of interacting with the 
@@ -39,6 +40,7 @@ Now you can start using OpenNord by importing it in your `.go` files:
 ```go
 import (
 	"github.com/adamdb5/opennord"
+    "github.com/adamdb5/opennord/pb"
 )
 ```
 
@@ -920,3 +922,89 @@ type Daemon_ConnectClient interface {
 
 ### Functions {#daemon}
 - Recv: `(*ConnectResponse, error)` - Receives the current stage in the connection process, i.e. connecting, connected.
+
+
+# Example
+Below is a simple example that logs the user in, connects to a server in London, gets the status, disconnects and logs out.
+
+```go
+package main
+
+import (
+	"github.com/adamdb5/opennord"
+	"github.com/adamdb5/opennord/pb"
+	"io"
+	"log"
+	"time"
+)
+
+func main() { 
+	// Create the client
+	client, err := opennord.NewOpenNordClient()
+	if err != nil {
+		log.Fatalf("Could not create client: %s.", err)
+	}
+	
+	// Login
+	err = client.Login(&pb.LoginRequest{
+		Username: "email@domain.com",
+		Password: "password",
+	})
+	if err != nil {
+		log.Fatalf("Could not log in: %s.", err)
+	} 
+	log.Printf("Successfully logged in.")
+	
+	// Connect to London
+	daemonClient, _ := client.Connect(&pb.ConnectRequest{
+		ServerTag: "London",
+		Protocol:  pb.ProtocolEnum_TCP,
+	})
+	
+	// Log the connection progress
+	for {
+		msg, err := daemonClient.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Could not connect: %s.", err)
+		}
+		log.Printf("Connecting to: %s (%s).", msg.GetMessages()[0], msg.GetMessages()[1])
+	}
+	
+	// Check our connection status
+	status, err := client.Status()
+	if err != nil {
+		log.Fatalf("Could not get status: %s.", err)
+	}
+	log.Printf("Status: %s.", status.GetState())
+	
+	// Wait for a bit 
+	time.Sleep(5 * time.Second)
+	
+	// Disconnect
+	err = client.Disconnect()
+	if err != nil {
+		log.Fatalf("Could not disconnect: %s.", err)
+	}
+	log.Printf("Successfully disconnected.")
+	
+	// Logout
+	err = client.Logout()
+	if err != nil {
+		log.Fatalf("Could not logout: %s.", err)
+	}
+	log.Printf("Successfully logged out.")
+}
+```
+
+Output:
+```text
+2022/01/06 21:19:29 Successfully logged in.
+2022/01/06 21:19:30 Connecting to: United Kingdom #2203 (uk2203.nordvpn.com).
+2022/01/06 21:19:30 Connecting to: United Kingdom #2203 (uk2203.nordvpn.com).
+2022/01/06 21:19:30 Status: Connected.
+2022/01/06 21:19:35 Successfully disconnected.
+2022/01/06 21:19:35 Successfully logged out.
+```
