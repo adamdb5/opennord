@@ -16,7 +16,7 @@ to the user.
 
 As a result, I decided to reverse engineer the NordVPN client, uncovering the underlying gRPC API to create an
 open-source library for users to build custom applications. If you are interested in this process, you can read my
-[blog post]().
+blog post (coming soon).
 
 The reason this library is written in Go is for three reasons:
 - The official NordVPN client is written in Go
