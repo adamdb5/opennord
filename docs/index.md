@@ -17,7 +17,7 @@ to the user.
 
 As a result, I decided to reverse engineer the NordVPN client, uncovering the underlying gRPC API to create an
 open-source library for users to build custom applications. If you are interested in this process, you can read my
-blog post (coming soon).
+[blog post](https://adambruce.net/blog/reverse-engineering-nordvpn-client/).
 
 The reason this library is written in Go is for three reasons:
 - The official NordVPN client is written in Go
@@ -26,7 +26,7 @@ The reason this library is written in Go is for three reasons:
 
 If you wish to implement OpenNord in another language, then please do so. To do this, you will need to use the 
 `daemon.proto` file along with the `protoc` command to generate a stub for your chosen language. More information is 
-available [here](https://grpc.io/docs/protoc-installation/) 
+available [here](https://grpc.io/docs/protoc-installation/).
 
 # Getting Started
 To start using OpenNord, simply add the following to your `go.mod` file:
@@ -40,7 +40,7 @@ Now you can start using OpenNord by importing it in your `.go` files:
 ```go
 import (
 	"github.com/adamdb5/opennord"
-    "github.com/adamdb5/opennord/pb"
+	"github.com/adamdb5/opennord/pb"
 )
 ```
 
