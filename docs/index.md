@@ -32,7 +32,7 @@ available [here](https://grpc.io/docs/protoc-installation/)
 To start using OpenNord, simply add the following to your `go.mod` file:
 ```
 require (
-    github.com/adamdb5/opennord v0.0.1
+    github.com/adamdb5/opennord v1.0.0
 )
 ```
 

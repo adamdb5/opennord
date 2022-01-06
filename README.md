@@ -6,6 +6,10 @@ OpenNord communicates directly with the NordVPN Linux daemon via gRPC.
 
 Documentation is available [here](https://adamdb5.github.io/opennord).
 
-Reverse engineering write-up is *coming soon*.
+Reverse engineering write-up is available [here](https://adambruce.net/blog/reverse-engineering-nordvpn-client/)
 
+## Contributing
+If you run into any issues or see something to improve, please feel free to create an issue or a pull request.
 
+## License
+This library is licensed under the Apache-2.0 license.
