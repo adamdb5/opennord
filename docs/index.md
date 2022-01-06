@@ -764,7 +764,7 @@ type SetAutoConnectRequest struct {
 ### Fields
 - ServerTag: `string` - The server tag. This can be either a country, city or group. e.g. "united_kingdom", "uk", 
 "Europe"
-- Protocol: `ProtocolEnum` - The protocol to use, possible values are Possible values are TechnologyEnum_OPENVPN and
+- Protocol: `ProtocolEnum` - The protocol to use, possible values are TechnologyEnum_OPENVPN and
   TechnologyEnum_NORDLYNX.
 - CyberSec: `bool` - Whether the connection should use CyberSec.
 - Obfuscate: `bool` - Whether the connection should use obfuscation.
