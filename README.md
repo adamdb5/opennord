@@ -12,4 +12,4 @@ Reverse engineering write-up is available [here](https://adambruce.net/blog/reve
 If you run into any issues or see something to improve, please feel free to create an issue or a pull request.
 
 ## License
-This library is licensed under the Apache-2.0 license.
+This library is licensed under the MIT license.
