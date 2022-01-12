@@ -29,13 +29,13 @@ func getDaemonClient(conn *grpc.ClientConn) pb.DaemonClient {
 }
 
 // NewOpenNordClient creates a client for interacting with the NordVPN daemon.
-func NewOpenNordClient() (Client, error) {
+func NewOpenNordClient() (*Client, error) {
 	conn, err := getConnection()
 	if err != nil {
-		return Client{}, err
+		return nil, err
 	}
 	client := getDaemonClient(conn)
-	return Client{
+	return &Client{
 		grpcConnection: conn,
 		daemonClient:   client,
 	}, nil
